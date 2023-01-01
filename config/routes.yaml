@@ -1,0 +1,5 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: Ixnode\PhpApiVersionBundle\Controller
+    type: attribute

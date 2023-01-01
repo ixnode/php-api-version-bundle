@@ -1,0 +1,13 @@
+{
+    "$schema": "resource.schema.json",
+    "name": "ixnode/php-api-version-bundle",
+    "description": "Provides the base API plattform functionality.",
+    "version": "0.1.0",
+    "date": "Friday, December 30, 2022 - 09:45:29",
+    "license": "Copyright (c) 2022 Björn Hempel",
+    "authors": [
+        "Björn Hempel <bjoern@hempel.li>"
+    ],
+    "php-version": "8.1.12",
+    "symfony-version": "6.1.6"
+}

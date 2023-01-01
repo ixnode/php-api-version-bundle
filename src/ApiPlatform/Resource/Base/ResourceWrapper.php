@@ -1,0 +1,245 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the ixnode/php-api-version-bundle project.
+ *
+ * (c) Björn Hempel <https://www.hempel.li/>
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
+namespace Ixnode\PhpApiVersionBundle\ApiPlatform\Resource\Base;
+
+use DateTimeImmutable;
+
+/**
+ * Class ResourceWrapper
+ *
+ * @author Björn Hempel <bjoern@hempel.li>
+ * @version 0.1.0 (2023-01-01)
+ * @since 0.1.0 (2023-01-01) First version.
+ */
+class ResourceWrapper
+{
+    /** @var BasePublicResource|BasePublicResource[] $data */
+    private BasePublicResource|array $data;
+
+    /** @var array<string, string>|null $userDistribution */
+    private ?array $userDistribution;
+
+    /** @var array<int|string, int|string> */
+    private array $given;
+
+    private bool $valid = true;
+
+    private ?string $error = null;
+
+    /** @var array<int|string, mixed>|null $validationDetails */
+    private ?array $validationDetails = null;
+
+    /** @var array<int|string, mixed>|null $enrichmentDetails */
+    private ?array $enrichmentDetails = null;
+
+    private DateTimeImmutable $date;
+
+    private string $timeTaken;
+
+    private string $version;
+
+    /**
+     * Gets the BaseResource entity or collection (data).
+     *
+     * @return BasePublicResource|BasePublicResource[]
+     */
+    public function getData(): BasePublicResource|array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Sets the BaseResource entity or collection (data).
+     *
+     * @param BasePublicResource|BasePublicResource[] $data
+     * @return self
+     */
+    public function setData(BasePublicResource|array $data): self
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, string>|null
+     */
+    public function getUserDistribution(): ?array
+    {
+        return $this->userDistribution;
+    }
+
+    /**
+     * @param array<string, string> $userDistribution
+     * @return self
+     */
+    public function setUserDistribution(array $userDistribution): self
+    {
+        $this->userDistribution = $userDistribution;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int|string, int|string>
+     */
+    public function getGiven(): array
+    {
+        return $this->given;
+    }
+
+    /**
+     * @param array<int|string, int|string> $given
+     * @return self
+     */
+    public function setGiven(array $given): self
+    {
+        $this->given = $given;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool $valid
+     * @return self
+     */
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
+    /**
+     * @param string $error
+     * @return self
+     */
+    public function setError(string $error): self
+    {
+        $this->error = $error;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int|string, mixed>|null
+     */
+    public function getValidationDetails(): ?array
+    {
+        return $this->validationDetails;
+    }
+
+    /**
+     * @param array<int|string, mixed> $validationDetails
+     * @return self
+     */
+    public function setValidationDetails(array $validationDetails): self
+    {
+        $this->validationDetails = $validationDetails;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int|string, mixed>|null
+     */
+    public function getEnrichmentDetails(): ?array
+    {
+        return $this->enrichmentDetails;
+    }
+
+    /**
+     * @param array<int|string, mixed> $enrichmentDetails
+     * @return self
+     */
+    public function setEnrichmentDetails(?array $enrichmentDetails): self
+    {
+        $this->enrichmentDetails = $enrichmentDetails;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getDate(): DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param DateTimeImmutable $date
+     * @return self
+     */
+    public function setDate(DateTimeImmutable $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeTaken(): string
+    {
+        return $this->timeTaken;
+    }
+
+    /**
+     * @param string $timeTaken
+     * @return self
+     */
+    public function setTimeTaken(string $timeTaken): self
+    {
+        $this->timeTaken = $timeTaken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     * @return self
+     */
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+}
