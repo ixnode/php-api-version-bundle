@@ -14,16 +14,26 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Ixnode\PhpApiVersionBundle\DependencyInjection\IxnodePhpApiVersionExtension;
+use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 /**
- * Class PhpApiVersionBundle
+ * Class IxnodePhpApiVersionBundle
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2023-01-01)
  * @since 0.1.0 (2023-01-01) First version.
  */
-class IxnodePhpApiVersionBundle extends Bundle
+class IxnodePhpApiVersionBundle extends AbstractBundle
 {
-
+    /**
+     * Returns the Extension class.
+     *
+     * @return Extension|null
+     */
+    public function getContainerExtension(): ?Extension
+    {
+        return new IxnodePhpApiVersionExtension();
+    }
 }

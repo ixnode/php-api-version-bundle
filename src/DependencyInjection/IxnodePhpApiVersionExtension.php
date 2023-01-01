@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * @version 0.1.0 (2023-01-01)
  * @since 0.1.0 (2023-01-01) First version.
  */
-class PhpApiVersionExtension extends Extension
+class IxnodePhpApiVersionExtension extends Extension
 {
     /**
      * Loads the given configuration files.
@@ -39,7 +39,7 @@ class PhpApiVersionExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
     }
 }
