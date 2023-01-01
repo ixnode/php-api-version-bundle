@@ -1,0 +1,5 @@
+services:
+  ixnode_php_api_version_bundle_command_version_command:
+    class: Ixnode\PhpApiVersionBundle\Command\VersionCommand
+    tags:
+      - { name: console.command }

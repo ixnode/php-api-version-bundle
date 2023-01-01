@@ -1,4 +1,4 @@
-# PHP Container
+# PHP API Version Bundle
 
 [![Release](https://img.shields.io/github/v/release/ixnode/php-api-version-bundle)](https://github.com/ixnode/php-api-version-bundle/releases)
 [![PHP](https://img.shields.io/badge/PHP-^8.0-777bb3.svg?logo=php&logoColor=white&labelColor=555555&style=flat)](https://www.php.net/supported-versions.php)
