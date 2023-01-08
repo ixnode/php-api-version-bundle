@@ -96,8 +96,9 @@
 
         "ixno:header": "bin/header/ixno",
 
-        "db:initialize:test": "bin/header/dbinit 'bin/console db:reinitialize --format=text --env=test' 'Test-DB Initialization'",
-        "db:initialize:main": "for dump in fixtures/db/*.sql; do mysql -h127.0.0.1 -P3336 -uroot -psecret-pass --default-character-set=utf8 opa < \"$dump\"; done",
+        "db:initialize:test:fixture": "bin/header/dbinit 'bin/console db:reinitialize --format=text --env=test' 'Test-DB Initialization'",
+        "db:initialize:main:fixture": "bin/header/dbinit 'bin/console db:reinitialize --format=text --env=dev' 'Test-DB Initialization'",
+        "db:initialize:main:sql": "for dump in fixtures/db/*.sql; do mysql -h127.0.0.1 -P3336 -uroot -psecret-pass --default-character-set=utf8 opa < \"$dump\"; done",
 
         "doc:build:schema": "bin/console validator:schema data/json/api/private/power/private.power.json --reformat",
         "doc:build:endpoint": "bin/console document-generator:api --generate",
@@ -126,19 +127,19 @@
         "phpunit:functional:debug": "bin/header/phpunit 'PHPUNIT_DEBUG=1 vendor/bin/phpunit -d memory_limit=512M --configuration .phpunit/phpunit.functional.xml' 'Functional'",
         "phpunit:unit:debug": "bin/header/phpunit 'PHPUNIT_DEBUG=1 vendor/bin/phpunit -d memory_limit=512M --configuration .phpunit/phpunit.unit.xml' 'Unit'",
         "phpunit:all": [
-            "@db:initialize:test",
+            "@db:initialize:test:fixture",
             "@phpunit:unit",
             "@phpunit:functional",
             "@phpunit:api"
         ],
         "phpunit:all:coverage": [
-            "@db:initialize:test",
+            "@db:initialize:test:fixture",
             "@phpunit:unit:coverage",
             "@phpunit:functional:coverage",
             "@phpunit:api:coverage"
         ],
         "phpunit:all:debug": [
-            "@db:initialize:test",
+            "@db:initialize:test:fixture",
             "@phpunit:unit:debug",
             "@phpunit:functional:debug",
             "@phpunit:api:debug"
@@ -255,8 +256,9 @@
         ".test:hardcore": " ",
         ".test:most": " ",
 
-        "db:initialize:test": "Initializes the test db.",
-        "db:initialize:main": "Initializes the main db.",
+        "db:initialize:test:fixture": "Initializes the test db via fixtures.",
+        "db:initialize:main:fixture": "Initializes the main db via fixtures.",
+        "db:initialize:main:sql": "Initializes the main db via sql dumps.",
 
         "doc:build:schema": "Builds schema documents.",
         "doc:build:endpoint": "Builds endpoint documents.",

@@ -62,7 +62,7 @@ services:
   # Nginx to serve the app.
   nginx:
     ports:
-      - "${PORT_HTTPS_API_EXPOSE}:${PORT_HTTPS}"
+      - "${PORT_HTTPS_APP_EXPOSE}:${PORT_HTTPS}"
     networks:
       - network-internal
       - network-traefik
@@ -88,10 +88,15 @@ services:
       # network
       - "traefik.docker.network=${NETWORK_NAME_TRAEFIK_PUBLIC_LOCAL}"
 
-  # MySQL 5.7.39 Server
+  # MySQL 8.0.31 Server
   database:
     ports:
-      - ${EXPOSE_MYSQL_PORT}:${MYSQL_SERVER_PORT}
+      - ${PORT_DB_MAIN_EXPOSE}:${MYSQL_SERVER_PORT}
+
+  # MySQL 8.0.31 Server
+  database-test:
+    ports:
+      - ${PORT_DB_TEST_EXPOSE}:${MYSQL_SERVER_PORT}
 
   # Adminer MySQL Client
   adminer:

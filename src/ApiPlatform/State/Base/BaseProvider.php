@@ -66,10 +66,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * @throws CaseInvalidException
      * @noRector
      */
-    protected function doProvide(): BasePublicResource|array
-    {
-        throw new CaseInvalidException(sprintf(self::TEXT_UNDEFINED_METHOD, __METHOD__), []);
-    }
+    abstract protected function doProvide(): BasePublicResource|array;
 
     /**
      * Do the processed job and returns the resource wrapper.
@@ -78,10 +75,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * @throws CaseInvalidException
      * @noRector
      */
-    protected function doProcess(): BasePublicResource
-    {
-        throw new CaseInvalidException(sprintf(self::TEXT_UNDEFINED_METHOD, __METHOD__), []);
-    }
+    abstract protected function doProcess(): BasePublicResource;
 
     /**
      * Binds given input definitions.
@@ -135,9 +129,9 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      */
     protected function getRouteProperties(): array
     {
-        return match ($this::class) {
+        return match (static::class) {
             VersionProvider::class => VersionRoute::PROPERTIES,
-            default => throw new CaseInvalidException($this::class, [])
+            default => throw new CaseInvalidException(static::class, [])
         };
     }
 

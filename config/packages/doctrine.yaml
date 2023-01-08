@@ -12,14 +12,14 @@ doctrine:
                 user: "%env(resolve:DOCTRINE_DB_USER)%"
                 password: "%env(resolve:DOCTRINE_DB_PASS)%"
             sqlite:
-                driver: "%env(resolve:DOCTRINE_DB_DRIVER_SQLITE)%"
-                server_version: "%env(resolve:DOCTRINE_DB_VERSION_SQLITE)%"
-                path: "%env(resolve:DOCTRINE_DB_PATH_SQLITE)%"
-                dbname: "%env(resolve:DOCTRINE_DB_NAME_SQLITE)%"
-                host: "%env(resolve:DOCTRINE_DB_HOST_SQLITE)%"
-                port: "%env(resolve:DOCTRINE_DB_PORT_SQLITE)%"
-                user: "%env(resolve:DOCTRINE_DB_USER_SQLITE)%"
-                password: "%env(resolve:DOCTRINE_DB_PASS_SQLITE)%"
+                driver: "%env(resolve:DOCTRINE_DB_DRIVER)%"
+                server_version: "%env(resolve:DOCTRINE_DB_VERSION)%"
+                path: "%env(resolve:DOCTRINE_DB_PATH)%"
+                dbname: "%env(resolve:DOCTRINE_DB_NAME)%"
+                host: "%env(resolve:DOCTRINE_DB_HOST)%"
+                port: "%env(resolve:DOCTRINE_DB_PORT)%"
+                user: "%env(resolve:DOCTRINE_DB_USER)%"
+                password: "%env(resolve:DOCTRINE_DB_PASS)%"
 
     orm:
         auto_generate_proxy_classes: true

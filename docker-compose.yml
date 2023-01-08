@@ -132,7 +132,8 @@ services:
       ENV_MAIL_SERVER_HOST: "${MAIL_SERVER_HOST}"
       ENV_MAIL_SERVER_PORT: "${MAIL_SERVER_PORT}"
       # some ports
-      ENV_EXPOSE_API_HTTPS_PORT: "${PORT_HTTPS_API_EXPOSE}"
+      ENV_EXPOSE_APP_HTTPS_PORT: "${PORT_HTTPS_APP_EXPOSE}"
+      ENV_EXPOSE_APP_HTTP_PORT: "${PORT_HTTP_APP_EXPOSE}"
     depends_on:
       - database
       - database-test

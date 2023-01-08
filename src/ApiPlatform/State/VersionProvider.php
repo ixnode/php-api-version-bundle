@@ -48,9 +48,9 @@ final class VersionProvider extends BaseRawProvider
     }
 
     /**
-     * Do the provided job.
+     * Do the provided job and returns the base resource.
      *
-     * @return BasePublicResource
+     * @inheritdoc
      * @throws FileNotFoundException
      * @throws ArrayKeyNotFoundException
      * @throws FunctionJsonEncodeException
@@ -66,5 +66,15 @@ final class VersionProvider extends BaseRawProvider
             ->setLicense($this->version->getLicense())
             ->setVersion($this->version->getVersion())
             ->setDate($this->version->getDate());
+    }
+
+    /**
+     * Do the processed job and returns the resource wrapper.
+     *
+     * @inheritdoc
+     */
+    protected function doProcess(): BasePublicResource
+    {
+        return new VersionResource();
     }
 }
