@@ -2,8 +2,8 @@
 # A recipe to deliver the app via Nginx, PHP 8.1.x and MySQL 8.0.31.
 #
 # @author Björn Hempel <bjoern@hempel.li>
-# @version 0.1.0 (2023-01-01)
-# @since 0.1.0 (2023-01-01) First version.
+# @version 0.1.0 (2023-06-24)
+# @since 0.1.0 (2023-06-24) First version.
 # ===========================================
 
 # ===========================================
@@ -59,33 +59,7 @@ version: "3.8"
 # Configures the services
 services:
 
-  # Nginx to serve the app.
-  nginx:
-    # @see: https://hub.docker.com/_/nginx
-    build:
-      dockerfile: "${DOCKERFILE_NGINX}"
-      context: "docker/nginx"
-      args:
-        - IMAGE_ADD=${IMAGE_ADD}
-    image: "${IMAGE_NGINX}:${VERSION_APP_LATEST}"
-    container_name: "${NAMESPACE_DEVELOPMENT}.nginx"
-    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-nginx"
-    restart: always
-    volumes:
-      # Server static pages
-      - .:/var/www/web:cached
-      # Add nginx log path
-      - ./docker/nginx/log/:/var/log/nginx/
-      # Add nginx configuration
-      - ./docker/nginx/conf.d/site.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - network-internal
-    depends_on:
-      - php
-      - database
-      - database-test
-
-  # PHP FPM 8.1.11 to serve dynamic php scripts
+  # PHP FPM 8.2.1 and apache to serve the app
   php:
     # @see: https://hub.docker.com/_/php
     build:
@@ -97,98 +71,83 @@ services:
     container_name: "${NAMESPACE_DEVELOPMENT}.php.${PHP_VERSION}"
     hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-php-${PHP_VERSION_HOSTNAME}"
     restart: always
-    #command: "cron -f"
     volumes:
-      # Server static pages
+      # Server content (development mode)
       - .:/var/www/web:delegated
       # Exclude folder vendor
       - php-data-vendor:/var/www/web/vendor
       # Exclude folder var/cache
       - php-data-var:/var/www/web/var
-    #user: "${UID}:${GID}"
+      # Include cron tasks
+      - ./docker/php/cron.d/symfony.local:/etc/cron.d/symfony
+    #user: "www-data:users"
     networks:
       - network-internal
     environment:
       # app version
       VERSION_APP: "${VERSION_APP}"
       # database configuration
-      ENV_DB_HOST: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-database"
-      ENV_DB_USER: "${MYSQL_SERVER_ROOT_USER}"
-      ENV_DB_PASS: "${MYSQL_SERVER_ROOT_PASSWORD}"
-      ENV_DB_NAME: "${MYSQL_SERVER_DB}"
-      ENV_DB_PORT: "${MYSQL_SERVER_PORT}"
-      ENV_DB_VERSION: "${MYSQL_SERVER_VERSION}"
-      ENV_DB_DRIVER: "${MYSQL_SERVER_DRIVER}"
-      # database test configuration
-      ENV_DB_HOST_TEST: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-database-test"
-      ENV_DB_USER_TEST: "${MYSQL_SERVER_ROOT_USER}"
-      ENV_DB_PASS_TEST: "${MYSQL_SERVER_ROOT_PASSWORD}"
-      ENV_DB_NAME_TEST: "${MYSQL_SERVER_DB_TEST}"
-      ENV_DB_PORT_TEST: "${MYSQL_SERVER_PORT}"
-      ENV_DB_VERSION_TEST: "${MYSQL_SERVER_VERSION}"
-      ENV_DB_DRIVER_TEST: "${MYSQL_SERVER_DRIVER}"
+      ENV_DB_USER: "${POSTGRESQL_SERVER_ROOT_USER}"
+      ENV_DB_PASS: "${POSTGRESQL_SERVER_ROOT_PASSWORD}"
+      ENV_DB_HOST: "${POSTGRESQL_SERVER_HOST}"
+      ENV_DB_PORT: "${POSTGRESQL_SERVER_PORT}"
+      ENV_DB_NAME: "${POSTGRESQL_SERVER_DB}"
+      ENV_DB_VERSION: "${POSTGRESQL_SERVER_VERSION}"
+      ENV_DB_DRIVER: "${POSTGRESQL_SERVER_DRIVER}"
       # mail configuration
       ENV_MAIL_SERVER_TRANSPORT: "${MAIL_SERVER_TRANSPORT}"
       ENV_MAIL_SERVER_HOST: "${MAIL_SERVER_HOST}"
       ENV_MAIL_SERVER_PORT: "${MAIL_SERVER_PORT}"
-      # some ports
-      ENV_EXPOSE_APP_HTTPS_PORT: "${PORT_HTTPS_APP_EXPOSE}"
-      ENV_EXPOSE_APP_HTTP_PORT: "${PORT_HTTP_APP_EXPOSE}"
     depends_on:
-      - database
-      - database-test
+      - postgresql
 
-  # MySQL 8.0.31 Server
-  database:
-    image: "${IMAGE_MYSQL}"
-    container_name: "${NAMESPACE_DEVELOPMENT}.database"
-    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-database"
+  # PostgreSQL 14.7
+  postgresql:
+    image: "${IMAGE_POSTGRESQL}"
+    container_name: "${NAMESPACE_DEVELOPMENT}.postgresql"
+    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-postgresql"
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_SERVER_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_SERVER_DB}"
+      POSTGRES_USER: "${POSTGRESQL_SERVER_ROOT_USER}"
+      POSTGRES_PASSWORD: "${POSTGRESQL_SERVER_ROOT_PASSWORD}"
+      POSTGRES_DB: "${POSTGRESQL_SERVER_DB}"
     volumes:
       # Add database data volume
-      - database-data:/var/lib/mysql:delegated
-      # Add database config file
-      - ./docker/mysql/conf.d/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+      - postgresql-data:/var/lib/postgresql/data:rw
+      # Mount fixtures
+      - ./fixtures/db:/fixtures/db
     networks:
       - network-internal
 
-  # MySQL 8.0.31 Server
-  database-test:
-    image: "${IMAGE_MYSQL}"
-    container_name: "${NAMESPACE_DEVELOPMENT}.database.test"
-    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-database-test"
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_SERVER_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_SERVER_DB_TEST}"
-    volumes:
-      # Add database config file
-      - ./docker/mysql/conf.d/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
-    networks:
-      - network-internal
-
-  # Adminer MySQL Client
+  # Adminer MySQL Client (MySQL + PostgreSQL)
   adminer:
-    image: "${IMAGE_ADMINER}"
+    # @see: https://hub.docker.com/_/adminer/
+    build:
+      dockerfile: "${DOCKERFILE_ADMINER}"
+      context: "docker/adminer"
+      args:
+        - IMAGE_ADD=${IMAGE_ADD}
+    image: "${IMAGE_ADMINER}:${VERSION_APP_LATEST}"
     container_name: "${NAMESPACE_DEVELOPMENT}.adminer"
     hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-adminer"
     restart: always
     environment:
-      ADMINER_DEFAULT_SERVER: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-database"
+      ADMINER_DEFAULT_SERVER: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-postgresql"
+      ADMINER_DESIGN: "flat"
+      ADMINER_PLUGINS: "tables-filter tinymce"
     networks:
       - network-internal
     depends_on:
-      - database
-      - database-test
+      - postgresql
 
-  # Mailhog (amd64 and arm64 version)
-  mailhog:
-    image: "teawithfruit/mailhog:latest"
-    container_name: "${NAMESPACE_DEVELOPMENT}.mailhog"
-    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-mailhog"
+  # Maildev
+  maildev:
+    image: "maildev/maildev:latest"
+    container_name: "${NAMESPACE_DEVELOPMENT}.maildev"
+    hostname: "${NAMESPACE_HOSTNAME_DEVELOPMENT}-maildev"
+    command: ["--mail-directory=/maildir"]
+    volumes:
+      - maildev-data:/maildir
     restart: always
     networks:
       - network-internal
@@ -197,12 +156,18 @@ services:
 
 # configure volumes
 volumes:
-  database-data:
-    name: "${NAMESPACE_DEVELOPMENT}.database.data"
+  # PHP vendor volume to avoid using local folder
   php-data-vendor:
     name: "${NAMESPACE_DEVELOPMENT}.php.data.vendor"
+  # PHP var volume to avoid using local folder
   php-data-var:
     name: "${NAMESPACE_DEVELOPMENT}.php.data.var"
+  # Volume to persist the DB data
+  postgresql-data:
+    name: "${NAMESPACE_DEVELOPMENT}.postgresql.data"
+  # Volume to persist the Mail data
+  maildev-data:
+    name: "${NAMESPACE_DEVELOPMENT}.maildev.data"
 
 # configure networks
 networks:

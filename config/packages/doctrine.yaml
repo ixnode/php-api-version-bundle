@@ -1,44 +1,34 @@
 doctrine:
     dbal:
-        default_connection: default
+        default_connection: postgresql
         connections:
-            default:
-                driver: "%env(resolve:DOCTRINE_DB_DRIVER)%"
-                server_version: "%env(resolve:DOCTRINE_DB_VERSION)%"
-                path: "%env(resolve:DOCTRINE_DB_PATH)%"
-                dbname: "%env(resolve:DOCTRINE_DB_NAME)%"
-                host: "%env(resolve:DOCTRINE_DB_HOST)%"
-                port: "%env(resolve:DOCTRINE_DB_PORT)%"
-                user: "%env(resolve:DOCTRINE_DB_USER)%"
-                password: "%env(resolve:DOCTRINE_DB_PASS)%"
+            postgresql:
+                driver: "%env(resolve:DOCTRINE_DB_DRIVER_POSTGRESQL)%"
+                server_version: "%env(resolve:DOCTRINE_DB_VERSION_POSTGRESQL)%"
+                path: "%env(resolve:DOCTRINE_DB_PATH_POSTGRESQL)%"
+                dbname: "%env(resolve:DOCTRINE_DB_NAME_POSTGRESQL)%"
+                host: "%env(resolve:DOCTRINE_DB_HOST_POSTGRESQL)%"
+                port: "%env(resolve:DOCTRINE_DB_PORT_POSTGRESQL)%"
+                user: "%env(resolve:DOCTRINE_DB_USER_POSTGRESQL)%"
+                password: "%env(resolve:DOCTRINE_DB_PASS_POSTGRESQL)%"
             sqlite:
-                driver: "%env(resolve:DOCTRINE_DB_DRIVER)%"
-                server_version: "%env(resolve:DOCTRINE_DB_VERSION)%"
-                path: "%env(resolve:DOCTRINE_DB_PATH)%"
-                dbname: "%env(resolve:DOCTRINE_DB_NAME)%"
-                host: "%env(resolve:DOCTRINE_DB_HOST)%"
-                port: "%env(resolve:DOCTRINE_DB_PORT)%"
-                user: "%env(resolve:DOCTRINE_DB_USER)%"
-                password: "%env(resolve:DOCTRINE_DB_PASS)%"
+                driver: "%env(resolve:DOCTRINE_DB_DRIVER_SQLITE)%"
+                server_version: "%env(resolve:DOCTRINE_DB_VERSION_SQLITE)%"
+                path: "%env(resolve:DOCTRINE_DB_PATH_SQLITE)%"
+                dbname: "%env(resolve:DOCTRINE_DB_NAME_SQLITE)%"
+                host: "%env(resolve:DOCTRINE_DB_HOST_SQLITE)%"
+                port: "%env(resolve:DOCTRINE_DB_PORT_SQLITE)%"
+                user: "%env(resolve:DOCTRINE_DB_USER_SQLITE)%"
+                password: "%env(resolve:DOCTRINE_DB_PASS_SQLITE)%"
 
     orm:
         auto_generate_proxy_classes: true
         default_entity_manager: default
         entity_managers:
             default:
-                connection: default # doctrine.dbal.connections.default
+                connection: postgresql # doctrine.dbal.connections.mysql
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 auto_mapping: true
-                mappings:
-                    App:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'Ixnode\PhpApiVersionBundle\Entity'
-                        alias: App
-            sqlite:
-                connection: sqlite # doctrine.dbal.connections.sqlite
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                auto_mapping: false
                 mappings:
                     App:
                         is_bundle: false
@@ -49,10 +39,25 @@ doctrine:
 when@test:
     doctrine:
         dbal:
+            default_connection: sqlite
             connections:
-                default:
+                sqlite:
                 # "TEST_TOKEN" is typically set by ParaTest
                 #dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+        orm:
+            auto_generate_proxy_classes: true
+            default_entity_manager: default
+            entity_managers:
+                default:
+                    connection: sqlite # doctrine.dbal.connections.mysql
+                    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                    auto_mapping: true
+                    mappings:
+                        App:
+                            is_bundle: false
+                            dir: '%kernel.project_dir%/src/Entity'
+                            prefix: 'Ixnode\PhpApiVersionBundle\Entity'
+                            alias: App
 
 when@prod:
     doctrine:

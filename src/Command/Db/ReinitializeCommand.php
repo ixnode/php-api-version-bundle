@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Command\Db;
 
@@ -111,6 +111,16 @@ class ReinitializeCommand extends BaseCommand
             $commands["/* Load fixtures */"] = CommandData::COMMAND_LOAD_FIXTURES;
         }
 
-        return $this->commandHelper->returnAndExecuteCommands($commands);
+        $data = $this->commandHelper->returnAndExecuteCommands($commands);
+
+        $lastStatusCode = $this->commandHelper->getLastExecCode();
+
+        if ($lastStatusCode!== 0) {
+            $lastCommandOutput = $this->commandHelper->getLastCommandOutput();
+
+            $data[self::KEY_ERROR] = $lastCommandOutput;
+        }
+
+        return $data;
     }
 }

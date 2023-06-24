@@ -52,6 +52,8 @@ abstract class BaseCommand extends Command
 
     protected const MESSAGE_SUCCESS = 'The result is delivered in the data part.';
 
+    protected const KEY_ERROR = 'error';
+
     protected InputInterface $input;
 
     protected OutputInterface $output;

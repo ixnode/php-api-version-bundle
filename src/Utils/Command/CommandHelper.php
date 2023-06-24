@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,11 +9,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\Utils\Command;
 
 use Ixnode\PhpApiVersionBundle\Kernel;
 use Exception;
+use Ixnode\PhpApiVersionBundle\Utils\Cli\CliParser;
+use Ixnode\PhpApiVersionBundle\Utils\Output\SimpleOutput;
+use Ixnode\PhpException\Case\CaseInvalidException;
+use Ixnode\PhpException\Configuration\ConfigurationMissingException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -35,6 +40,10 @@ class CommandHelper
     protected Application $application;
 
     protected bool $debug = false;
+
+    protected string $lastCommandOutput;
+
+    protected int $lastExecCode;
 
     /**
      * CommandHelper constructor.
@@ -58,8 +67,6 @@ class CommandHelper
     }
 
     /**
-     * Returns the environment of this class.
-     *
      * @return string|null
      */
     public function getEnvironment(): ?string
@@ -68,8 +75,6 @@ class CommandHelper
     }
 
     /**
-     * Sets the environment of this class.
-     *
      * @param string $environment
      * @param bool|null $debug
      * @return self
@@ -89,8 +94,6 @@ class CommandHelper
     }
 
     /**
-     * Returns true if this class is in debug mode.
-     *
      * @return bool
      */
     public function isDebug(): bool
@@ -99,8 +102,6 @@ class CommandHelper
     }
 
     /**
-     * Sets the debug mode of this class.
-     *
      * @param bool $debug
      * @return self
      */
@@ -141,14 +142,14 @@ class CommandHelper
     /**
      * Print and execute commands.
      *
-     * @param string[] $command
+     * @param string[] $commands
      * @return void
      * @throws Exception
      */
-    public function printAndExecuteCommands(array $command): void
+    public function printAndExecuteCommands(array $commands): void
     {
         /* translate the given command array. */
-        $commands = $this->translateCommands($command);
+        $commands = $this->translateCommands($commands);
 
         /* Print Header */
         print self::LINE_BREAK;
@@ -186,21 +187,20 @@ class CommandHelper
     /**
      * Print and execute commands.
      *
-     * @param array<string, string> $command
+     * @param array<string, string> $commands
      * @return array<int|string, mixed>
      * @throws Exception
      */
-    public function returnAndExecuteCommands(array $command): array
+    public function returnAndExecuteCommands(array $commands): array
     {
-        $commands = $this->translateCommands($command);
+        $commands = $this->translateCommands($commands);
 
         $data = [
             'header' => sprintf('Prepare the database (environment: %s)', $this->getEnvironment()),
-            'commands' => [],
+            'command' => [],
         ];
 
         /* Execute commands */
-        $number = 0;
         foreach ($commands as $comment => $command) {
             $dataCommand = [
                 'comment' => $comment,
@@ -209,16 +209,23 @@ class CommandHelper
 
             $message = '~ Dry Run.';
 
+            $execCode = 0;
+
             if (!$this->isDebug()) {
-                $this->runCommand($command);
-                $message = '~ Done.';
+                $execCode = $this->runCommand($command);
+
+                $dataCommand['execCode'] = $execCode;
+
+                $message = $execCode === 0 ? '~ Done.' : '~ Failed.';
             }
 
             $dataCommand['status'] = $message;
 
-            $data['commands'][] = $dataCommand;
+            $data['command'][] = $dataCommand;
 
-            $number++;
+            if ($execCode!== 0) {
+                break;
+            }
         }
 
         return $data;
@@ -244,10 +251,93 @@ class CommandHelper
      * @return int
      * @throws Exception
      */
-    protected function runCommand(string $command): int
+    public function runCommand(string $command): int
     {
         $command = sprintf('%s --quiet', $command);
 
-        return $this->application->run(new StringInput($command));
+        $output = new SimpleOutput();
+
+        $execCode = $this->application->run(new StringInput($command), $output);
+
+        $this->setLastExecCode($execCode);
+        $this->setLastCommandOutput($output->fetch());
+
+        return $execCode;
+    }
+
+    /**
+     * Returns the last command output.
+     *
+     * @return string
+     */
+    public function getLastCommandOutput(): string
+    {
+        return $this->lastCommandOutput;
+    }
+
+    /**
+     * Sets the last command output.
+     *
+     * @param string $lastCommandOutput
+     * @return self
+     */
+    public function setLastCommandOutput(string $lastCommandOutput): self
+    {
+        $this->lastCommandOutput = $lastCommandOutput;
+
+        return $this;
+    }
+
+    /**
+     * Gets the last status code.
+     *
+     * @return int
+     */
+    public function getLastExecCode(): int
+    {
+        return $this->lastExecCode;
+    }
+
+    /**
+     * Sets the last status code.
+     *
+     * @param int $lastExecCode
+     * @return self
+     */
+    public function setLastExecCode(int $lastExecCode): self
+    {
+        $this->lastExecCode = $lastExecCode;
+
+        return $this;
+    }
+
+    /**
+     * Returns the first error message.
+     *
+     * @return string
+     * @throws ConfigurationMissingException
+     * @throws CaseInvalidException
+     */
+    public function getFirstError(): string
+    {
+        if (!isset($this->lastCommandOutput)) {
+            throw new ConfigurationMissingException('The property lastCommandOutput is undefined.');
+        }
+
+        if (!isset($this->lastExecCode)) {
+            throw new ConfigurationMissingException('The property lastExecCode is undefined.');
+        }
+
+        if ($this->lastExecCode === Command::SUCCESS) {
+            throw new CaseInvalidException('Command::SUCCESS', ['Command::FAILURE', 'Command::INVALID']);
+        }
+
+        $cliParser = new CliParser($this->lastCommandOutput);
+
+        if ($cliParser->hasErrorMessages()) {
+            return $cliParser->getErrorMessages()[0];
+        }
+
+        return $cliParser->get();
     }
 }
