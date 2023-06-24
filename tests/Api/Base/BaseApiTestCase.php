@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Tests\Api\Base;
 
@@ -98,7 +98,6 @@ abstract class BaseApiTestCase extends ApiTestCase
      * @param class-string $serviceName
      * @return void
      * @throws ClassInvalidException
-     * @throws TypeInvalidException
      * @throws Exception
      */
     protected function createService(string $serviceName): void
@@ -106,10 +105,6 @@ abstract class BaseApiTestCase extends ApiTestCase
         $container = self::getContainer();
 
         $service = $container->get($serviceName);
-
-        if (is_null($service)) {
-            throw new TypeInvalidException('object', 'null');
-        }
 
         match (true) {
             $service instanceof ParameterBagInterface => $this->parameterBag = $service,

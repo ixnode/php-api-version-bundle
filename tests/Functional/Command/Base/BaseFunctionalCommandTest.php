@@ -212,7 +212,6 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
      * @param class-string $serviceName
      * @return void
      * @throws ClassInvalidException
-     * @throws TypeInvalidException
      * @throws Exception
      */
     protected function createService(string $serviceName): void
@@ -220,10 +219,6 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
         $container = self::getContainer();
 
         $service = $container->get($serviceName);
-
-        if (is_null($service)) {
-            throw new TypeInvalidException('object', 'null');
-        }
 
         match (true) {
             $service instanceof CommandHelper => $this->commandHelper = $service,
