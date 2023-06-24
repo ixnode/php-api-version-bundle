@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.6] - 2023-06-24
+
+* Composer update
+* Add TypeCastingHelper
+
 ### [0.1.5] - 2023-01-09
 
 * Port refactoring
