@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.8] - 2023-06-24
+
+* Add new docker setup with PHP 8.2, Apache 2.4, Cron and Supervisord
+
 ### [0.1.7] - 2023-06-24
 
 * Add monolog
