@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,12 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\Command\Version;
 
 use Exception;
 use Ixnode\BashVersionManager\Version;
+use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\Case\CaseInvalidException;
+use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\NamingConventions;
@@ -162,9 +165,11 @@ class VersionCommand extends Command
      * @param OutputInterface $output
      * @param array{version: string, license: string, authors: string[], php-version: string, symfony-version: string} $versionArray
      * @return void
-     * @throws TypeInvalidException
      * @throws FunctionJsonEncodeException
      * @throws JsonException
+     * @throws TypeInvalidException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     protected function printJson(OutputInterface $output, array $versionArray): void
     {
@@ -185,7 +190,7 @@ class VersionCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $format = strval($input->getOption(self::NAME_OPTION_FORMAT));
+        $format = (new TypeCastingHelper($input->getOption(self::NAME_OPTION_FORMAT)))->strval();
 
         match ($format) {
             self::OPTION_FORMAT_TEXT => $this->printText($output, $this->getVersionArray()),

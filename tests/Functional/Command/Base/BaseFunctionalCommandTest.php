@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\Tests\Functional\Command\Base;
 
 use Closure;
@@ -19,6 +19,7 @@ use Ixnode\PhpApiVersionBundle\Constants\Command\CommandData;
 use Ixnode\PhpApiVersionBundle\Utils\Command\CommandHelper;
 use Ixnode\PhpApiVersionBundle\Utils\Db\Entity;
 use Ixnode\PhpApiVersionBundle\Utils\Db\Repository;
+use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
 use Ixnode\PhpChecker\Checker;
 use Ixnode\PhpContainer\File;
 use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
@@ -260,7 +261,7 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
         $commandClassParameter = [];
 
         if ($commandClassParameterClosure !== null) {
-            $commandClassParameter = (new Checker($commandClassParameterClosure->call($this)))->checkArraySimple();
+            $commandClassParameter = (new Checker($commandClassParameterClosure->call($this)))->checkArray();
         }
 
         $keyCommand = $reflectionClass->newInstanceArgs($commandClassParameter);
@@ -315,6 +316,7 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
      * @return string
      * @throws ConfigurationMissingException
      * @throws ArrayKeyNotFoundException
+     * @throws TypeInvalidException
      */
     protected function getProjectDir(): string
     {
@@ -326,6 +328,6 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
             throw new ArrayKeyNotFoundException(self::NAME_KERNEL_PROJECT_DIR);
         }
 
-        return strval($this->parameterBag->get(self::NAME_KERNEL_PROJECT_DIR));
+        return (new TypeCastingHelper($this->parameterBag->get(self::NAME_KERNEL_PROJECT_DIR)))->strval();
     }
 }

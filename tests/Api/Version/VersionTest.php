@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Tests\Api\Version;
 
@@ -20,6 +20,7 @@ use Ixnode\PhpApiVersionBundle\Tests\Api\Base\BaseApiTestCase;
 use Ixnode\PhpContainer\File;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpJsonSchemaValidator\Validator;
@@ -65,11 +66,13 @@ class VersionTest extends BaseApiTestCase
      * @throws FunctionJsonEncodeException
      * @throws TypeInvalidException
      * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     public function wrapper(): void
     {
         /* Arrange */
         $response = $this->doRequest(ApiRoute::VERSION_RESOURCE);
+
         $json = new Json($response->toArray());
 
         /* Act */

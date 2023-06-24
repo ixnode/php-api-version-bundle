@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base;
 
 use ApiPlatform\State\ProcessorInterface;
@@ -18,8 +18,10 @@ use ApiPlatform\State\ProviderInterface;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\Resource\Base\BasePublicResource;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\Route\VersionRoute;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\State\VersionProvider;
+use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
 use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
 use Ixnode\PhpException\Case\CaseInvalidException;
+use Ixnode\PhpException\Type\TypeInvalidException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -140,6 +142,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @return string
      * @throws ArrayKeyNotFoundException
+     * @throws TypeInvalidException
      */
     protected function getProjectDir(): string
     {
@@ -147,6 +150,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
             throw new ArrayKeyNotFoundException(self::NAME_KERNEL_PROJECT_DIR);
         }
 
-        return strval($this->parameterBag->get(self::NAME_KERNEL_PROJECT_DIR));
+        return (new TypeCastingHelper($this->parameterBag->get(self::NAME_KERNEL_PROJECT_DIR)))->strval();
     }
 }

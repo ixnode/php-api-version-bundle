@@ -148,8 +148,8 @@
             "@phpunit:all"
         ],
 
-        "phpstan:run:soft": "bin/header/phpstan 'vendor/bin/phpstan analyse --level 5 --memory-limit 512M --xdebug -c phpstan.dist.neon src tests' 'run'",
-        "phpstan:run": "bin/header/phpstan 'vendor/bin/phpstan analyse --level max --memory-limit 512M --xdebug -c phpstan.dist.neon src tests' 'run'",
+        "phpstan:run:soft": "bin/header/phpstan 'vendor/bin/phpstan analyse --level 5 --memory-limit 512M -c phpstan.dist.neon src tests' 'run'",
+        "phpstan:run": "bin/header/phpstan 'vendor/bin/phpstan analyse --level max --memory-limit 512M -c phpstan.dist.neon src tests' 'run'",
         "phpstan": [
             "@phpstan:run"
         ],

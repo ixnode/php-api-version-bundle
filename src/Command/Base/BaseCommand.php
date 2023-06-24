@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,13 +9,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\Command\Base;
 
 use Ixnode\PhpApiVersionBundle\Utils\Db\Entity;
 use Ixnode\PhpApiVersionBundle\Utils\Db\Repository;
 use Exception;
+use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\Case\CaseInvalidException;
+use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
@@ -97,13 +100,14 @@ abstract class BaseCommand extends Command
      *
      * @param mixed $value
      * @return string
+     * @throws TypeInvalidException
      */
     protected function getValue(mixed $value): string
     {
         return match (true) {
             is_string($value) => $value,
             is_bool($value) => $value ? 'Yes' : 'No',
-            default => strval($value),
+            default => (new TypeCastingHelper($value))->strval(),
         };
     }
 
@@ -113,6 +117,7 @@ abstract class BaseCommand extends Command
      * @param mixed $key
      * @param string|null $recursiveName
      * @return string
+     * @throws TypeInvalidException
      */
     protected function getKey(mixed $key, ?string $recursiveName): string
     {
@@ -120,11 +125,13 @@ abstract class BaseCommand extends Command
             $key = sprintf('%d:', $key);
         }
 
+        $key = (new TypeCastingHelper($key))->strval();
+
         if ($recursiveName === null) {
-            return strval($key);
+            return $key;
         }
 
-        return sprintf('%s_%s', $recursiveName, strval($key));
+        return sprintf('%s_%s', $recursiveName, $key);
     }
 
     /**
@@ -168,9 +175,11 @@ abstract class BaseCommand extends Command
      * @param OutputInterface $output
      * @param array<int|string, mixed> $array
      * @return void
-     * @throws JsonException
      * @throws FunctionJsonEncodeException
+     * @throws JsonException
      * @throws TypeInvalidException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     protected function printJson(OutputInterface $output, array $array): void
     {
@@ -229,7 +238,7 @@ abstract class BaseCommand extends Command
         $this->input = $input;
         $this->output = $output;
 
-        $format = strval($this->input->getOption(self::NAME_OPTION_FORMAT));
+        $format = (new TypeCastingHelper($this->input->getOption(self::NAME_OPTION_FORMAT)))->strval();
 
         match ($format) {
             self::OPTION_FORMAT_TEXT => $this->printText($output, $this->executeCommand()),
