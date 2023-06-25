@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,11 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base\Raw;
 
 use ApiPlatform\Metadata\Operation;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\Resource\Base\BasePublicResource;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base\BaseProvider;
+use Ixnode\PhpException\Case\CaseInvalidException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
@@ -23,8 +24,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  *
  * Use this Provider to provide the raw data of the given BasePublicResource (doProvide) without any API specific wrapper information:
  *
- * - data ressource
- * - given ressource
+ * - data resource
+ * - given resource
  * - valid state of request
  * - date of request
  * - time-taken for request
@@ -49,6 +50,7 @@ abstract class BaseRawProvider extends BaseProvider
      * @param array<string, mixed> $uriVariables
      * @param array<int|string, mixed> $context
      * @return BasePublicResource|BasePublicResource[]
+     * @throws CaseInvalidException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): BasePublicResource|array
@@ -62,6 +64,7 @@ abstract class BaseRawProvider extends BaseProvider
      * @param array<string, mixed> $uriVariables
      * @param array<int|string, mixed> $context
      * @return BasePublicResource
+     * @throws CaseInvalidException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BasePublicResource

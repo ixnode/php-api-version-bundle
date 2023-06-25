@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Ixnode\PhpApiVersionBundle\Command\Version;
 
 use Exception;
-use Ixnode\BashVersionManager\Version;
 use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
+use Ixnode\PhpApiVersionBundle\Utils\Version\Version;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\Case\CaseInvalidException;
 use Ixnode\PhpException\File\FileNotFoundException;
@@ -29,7 +29,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Class VersionCommand
@@ -73,6 +72,12 @@ class VersionCommand extends Command
 
     protected const KEY_SYMFONY = 'symfony-version';
 
+    protected const KEY_COMPOSER = 'composer-version';
+
+    protected const KEY_DOCTRINE = 'doctrine-version';
+
+    protected const KEY_API_PLATFORM = 'api-platform-version';
+
     protected Version $version;
 
     /**
@@ -112,21 +117,18 @@ class VersionCommand extends Command
      */
     protected function getVersionArray(): array
     {
-        $authors = [];
-
-        foreach (Version::VALUE_AUTHORS as $author) {
-            $authors[] = $author;
-        }
-
         return [
             self::KEY_NAME => $this->version->getName(),
             self::KEY_DESCRIPTION => $this->version->getDescription(),
             self::KEY_VERSION => $this->version->getVersion(),
             self::KEY_DATE => $this->version->getDate(),
-            self::KEY_LICENSE => Version::VALUE_LICENSE,
-            self::KEY_AUTHORS => $authors,
-            self::KEY_PHP => phpversion(),
-            self::KEY_SYMFONY => Kernel::VERSION,
+            self::KEY_LICENSE => $this->version->getLicense(),
+            self::KEY_AUTHORS => $this->version->getAuthors(),
+            self::KEY_PHP => $this->version->getVersionPhp(),
+            self::KEY_SYMFONY => $this->version->getVersionSymfony(),
+            self::KEY_COMPOSER => $this->version->getVersionComposer(),
+            self::KEY_DOCTRINE => $this->version->getVersionComposerPackage('doctrine/orm'),
+            self::KEY_API_PLATFORM => $this->version->getVersionComposerPackage('api-platform/core'),
         ];
     }
 
@@ -140,7 +142,7 @@ class VersionCommand extends Command
      */
     protected function printText(OutputInterface $output, array $versionArray): void
     {
-        $templateFormat = '%-18s %s';
+        $templateFormat = '%-25s %s';
 
         $output->writeln('');
         foreach ($versionArray as $key => $value) {

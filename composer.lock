@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f9a8a0c399b90de9486dfedbbe75b57",
+    "content-hash": "b37e06bab0cf86847e2d2df011061a49",
     "packages": [
         {
             "name": "api-platform/core",
@@ -1567,21 +1567,22 @@
         },
         {
             "name": "ixnode/bash-version-manager",
-            "version": "0.1.5",
+            "version": "0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ixnode/bash-version-manager.git",
-                "reference": "98f0a77854bca5d76f3aa4de85b50ba1e2b35ad3"
+                "reference": "36fc3ebb7abfb3612e8525e252c78c0ac138412f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ixnode/bash-version-manager/zipball/98f0a77854bca5d76f3aa4de85b50ba1e2b35ad3",
-                "reference": "98f0a77854bca5d76f3aa4de85b50ba1e2b35ad3",
+                "url": "https://api.github.com/repos/ixnode/bash-version-manager/zipball/36fc3ebb7abfb3612e8525e252c78c0ac138412f",
+                "reference": "36fc3ebb7abfb3612e8525e252c78c0ac138412f",
                 "shasum": ""
             },
             "require": {
-                "ixnode/php-container": "^0.1.2",
-                "ixnode/php-exception": "^0.1.7",
+                "ixnode/php-checker": "^0.1.9",
+                "ixnode/php-container": "^0.1.8",
+                "ixnode/php-exception": "^0.1.19",
                 "php": "^8.0"
             },
             "require-dev": {
@@ -1617,9 +1618,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ixnode/bash-version-manager/issues",
-                "source": "https://github.com/ixnode/bash-version-manager/tree/0.1.5"
+                "source": "https://github.com/ixnode/bash-version-manager/tree/0.1.7"
             },
-            "time": "2022-12-30T22:02:09+00:00"
+            "time": "2023-06-25T09:55:30+00:00"
         },
         {
             "name": "ixnode/php-array-to-object",
@@ -1683,20 +1684,20 @@
         },
         {
             "name": "ixnode/php-checker",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ixnode/php-checker.git",
-                "reference": "182a5314541a27ed911895eb2db36c189c3a757c"
+                "reference": "54893b8d832272750de7bc4c9b22e6622643ae61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ixnode/php-checker/zipball/182a5314541a27ed911895eb2db36c189c3a757c",
-                "reference": "182a5314541a27ed911895eb2db36c189c3a757c",
+                "url": "https://api.github.com/repos/ixnode/php-checker/zipball/54893b8d832272750de7bc4c9b22e6622643ae61",
+                "reference": "54893b8d832272750de7bc4c9b22e6622643ae61",
                 "shasum": ""
             },
             "require": {
-                "ixnode/php-exception": "^0.1.17",
+                "ixnode/php-exception": "^0.1.19",
                 "php": "^8.0"
             },
             "require-dev": {
@@ -1728,35 +1729,35 @@
                     "homepage": "https://www.hempel.li/"
                 }
             ],
-            "description": "PHP Size Byte",
+            "description": "PHP Checker - A collection of various PHP types check classes.",
             "keywords": [
                 "checker",
                 "php"
             ],
             "support": {
                 "issues": "https://github.com/ixnode/php-checker/issues",
-                "source": "https://github.com/ixnode/php-checker/tree/0.1.8"
+                "source": "https://github.com/ixnode/php-checker/tree/0.1.9"
             },
-            "time": "2023-01-22T17:12:26+00:00"
+            "time": "2023-06-25T09:31:49+00:00"
         },
         {
             "name": "ixnode/php-container",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ixnode/php-container.git",
-                "reference": "28271cebaaf86d10272e0665328577161f3cc8b3"
+                "reference": "2de94e8c354bbf27b6f6470a7f675b03957c66a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ixnode/php-container/zipball/28271cebaaf86d10272e0665328577161f3cc8b3",
-                "reference": "28271cebaaf86d10272e0665328577161f3cc8b3",
+                "url": "https://api.github.com/repos/ixnode/php-container/zipball/2de94e8c354bbf27b6f6470a7f675b03957c66a7",
+                "reference": "2de94e8c354bbf27b6f6470a7f675b03957c66a7",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ixnode/php-checker": "^0.1.8",
-                "ixnode/php-exception": "^0.1.17",
+                "ixnode/php-exception": "^0.1.19",
                 "ixnode/php-size-byte": "^0.1.2",
                 "php": "^8.0"
             },
@@ -1789,7 +1790,7 @@
                     "homepage": "https://www.hempel.li/"
                 }
             ],
-            "description": "PHP Size Byte",
+            "description": "PHP Container - A collection of various PHP container classes like JSON, File, etc.",
             "keywords": [
                 "container",
                 "data",
@@ -1799,9 +1800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ixnode/php-container/issues",
-                "source": "https://github.com/ixnode/php-container/tree/0.1.7"
+                "source": "https://github.com/ixnode/php-container/tree/0.1.8"
             },
-            "time": "2023-01-26T00:19:11+00:00"
+            "time": "2023-06-25T09:36:46+00:00"
         },
         {
             "name": "ixnode/php-exception",

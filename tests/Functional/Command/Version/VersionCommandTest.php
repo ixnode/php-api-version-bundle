@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Tests\Functional\Command\Version;
 
@@ -20,6 +20,7 @@ use Ixnode\BashVersionManager\Version;
 use Ixnode\PhpContainer\File;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpJsonSchemaValidator\Validator;
@@ -57,6 +58,7 @@ class VersionCommandTest extends BaseFunctionalCommandTest
      * @throws FileNotFoundException
      * @throws FunctionJsonEncodeException
      * @throws TypeInvalidException
+     * @throws FileNotReadableException
      */
     public function wrapper(): void
     {
@@ -68,6 +70,6 @@ class VersionCommandTest extends BaseFunctionalCommandTest
         $validator = new Validator($json, new File(CommandSchema::VERSION_RESOURCE));
 
         /* Assert */
-        $this->assertTrue($validator->validate(), BaseFunctionalCommandTest::MESSAGE_JSON_RESPONSE_INVALID);
+        $this->assertTrue($this->validateAndWriteOutput($validator), BaseFunctionalCommandTest::MESSAGE_JSON_RESPONSE_INVALID);
     }
 }

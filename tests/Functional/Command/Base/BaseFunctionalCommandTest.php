@@ -26,7 +26,11 @@ use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
 use Ixnode\PhpException\Class\ClassInvalidException;
 use Ixnode\PhpException\Configuration\ConfigurationMissingException;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
+use Ixnode\PhpJsonSchemaValidator\Validator;
+use Ixnode\PhpJsonSchemaValidator\ValidatorDebugger;
+use JsonException;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -324,5 +328,21 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
         }
 
         return (new TypeCastingHelper($this->parameterBag->get(self::NAME_KERNEL_PROJECT_DIR)))->strval();
+    }
+
+    /**
+     * Validates the given data and writes debug outputs.
+     *
+     * @param Validator $validator
+     * @return bool
+     * @throws TypeInvalidException
+     * @throws FunctionJsonEncodeException
+     * @throws JsonException
+     * @throws FileNotFoundException
+     * @throws JsonException
+     */
+    protected function validateAndWriteOutput(Validator $validator): bool
+    {
+        return (new ValidatorDebugger($validator))->validate();
     }
 }

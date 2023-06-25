@@ -28,11 +28,23 @@
                 "type": "string"
             }
         },
-        "php-version":{
+        "php-version": {
             "type": "string",
             "pattern": "^\\d+\\.\\d+\\.\\d+$"
         },
-        "symfony-version":{
+        "symfony-version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "composer-version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "doctrine-version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "api-platform-version": {
             "type": "string",
             "pattern": "^\\d+\\.\\d+\\.\\d+$"
         }
