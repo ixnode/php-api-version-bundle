@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -11,13 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Ixnode\PhpApiVersionBundle\Entity\Trait;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
- * Trait TimestampsTrait
+ * Trait TimestampTrait
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2023-01-01)
@@ -26,14 +27,14 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimestampsTrait
 {
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
+    #[Ignore]
     private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
+    #[Ignore]
     private ?DateTimeImmutable $updatedAt = null;
 
     /**
-     * Gets the created at field of this trait.
-     *
      * @return DateTimeImmutable|null
      */
     public function getCreatedAt(): ?DateTimeImmutable
@@ -42,21 +43,17 @@ trait TimestampsTrait
     }
 
     /**
-     * Sets the created at field of this trait.
-     *
-     * @param DateTimeImmutable $timestamp
+     * @param DateTimeImmutable $createdAt
      * @return $this
      */
-    public function setCreatedAt(DateTimeImmutable $timestamp): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
-        $this->createdAt = $timestamp;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Gets the updated at field of this trait.
-     *
      * @return DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?DateTimeImmutable
@@ -65,14 +62,12 @@ trait TimestampsTrait
     }
 
     /**
-     * Sets the updated at field of this trait.
-     *
-     * @param DateTimeImmutable $timestamp
+     * @param DateTimeImmutable $updatedAt
      * @return $this
      */
-    public function setUpdatedAt(DateTimeImmutable $timestamp): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
-        $this->updatedAt = $timestamp;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -81,6 +76,7 @@ trait TimestampsTrait
      * Sets automatically the created at field.
      */
     #[ORM\PrePersist]
+    #[Ignore]
     public function setCreatedAtAutomatically(): void
     {
         if ($this->createdAt === null) {
@@ -93,6 +89,7 @@ trait TimestampsTrait
      */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
+    #[Ignore]
     public function setUpdatedAtAutomatically(): void
     {
         $this->setUpdatedAt(new DateTimeImmutable());

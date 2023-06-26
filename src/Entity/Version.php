@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Entity;
 
@@ -31,20 +31,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Version implements EntityInterface, Stringable
 {
     use TimestampsTrait;
-
-    final public const CRUD_FIELDS_ADMIN = [];
-
-    final public const CRUD_FIELDS_REGISTERED = ['id', 'version', 'updatedAt', 'createdAt'];
-
-    final public const CRUD_FIELDS_INDEX = ['id', 'version', 'updatedAt', 'createdAt'];
-
-    final public const CRUD_FIELDS_NEW = ['id', 'version'];
-
-    final public const CRUD_FIELDS_EDIT = self::CRUD_FIELDS_NEW;
-
-    final public const CRUD_FIELDS_DETAIL = ['id', 'version', 'updatedAt', 'createdAt'];
-
-    final public const CRUD_FIELDS_FILTER = ['version'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
