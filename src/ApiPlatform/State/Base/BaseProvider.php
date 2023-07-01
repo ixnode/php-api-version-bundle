@@ -96,7 +96,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * @param InputArgument[]|InputOption[] $inputs
      * @return void
      */
-    private function bindInputDefinition(array $inputs): void
+    protected function bindInputDefinition(array $inputs): void
     {
         $inputDefinition = new InputDefinition($inputs);
 
