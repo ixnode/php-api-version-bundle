@@ -16,8 +16,9 @@ namespace Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base\Raw;
 use ApiPlatform\Metadata\Operation;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\Resource\Base\BasePublicResource;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base\BaseProvider;
-use Ixnode\PhpException\Case\CaseInvalidException;
+use Ixnode\PhpException\Case\CaseUnsupportedException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class BaseRawProvider
@@ -40,9 +41,9 @@ abstract class BaseRawProvider extends BaseProvider
     /**
      * BaseDirectProvider constructor.
      */
-    public function __construct(protected ParameterBagInterface $parameterBag)
+    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $request)
     {
-        parent::__construct($this->parameterBag);
+        parent::__construct($this->parameterBag, $this->request);
     }
 
     /**
@@ -50,7 +51,7 @@ abstract class BaseRawProvider extends BaseProvider
      * @param array<string, mixed> $uriVariables
      * @param array<int|string, mixed> $context
      * @return BasePublicResource|BasePublicResource[]
-     * @throws CaseInvalidException
+     * @throws CaseUnsupportedException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): BasePublicResource|array
@@ -64,7 +65,7 @@ abstract class BaseRawProvider extends BaseProvider
      * @param array<string, mixed> $uriVariables
      * @param array<int|string, mixed> $context
      * @return BasePublicResource
-     * @throws CaseInvalidException
+     * @throws CaseUnsupportedException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BasePublicResource

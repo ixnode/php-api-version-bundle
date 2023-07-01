@@ -18,11 +18,14 @@ use Ixnode\PhpApiVersionBundle\ApiPlatform\Resource\Version as VersionResource;
 use Ixnode\PhpApiVersionBundle\ApiPlatform\State\Base\Raw\BaseRawProvider;
 use Ixnode\BashVersionManager\Version;
 use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
+use Ixnode\PhpException\Case\CaseInvalidException;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use JsonException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class VersionProvider
@@ -39,12 +42,13 @@ final class VersionProvider extends BaseRawProvider
      * VersionProvider constructor.
      *
      * @param ParameterBagInterface $parameterBag
+     * @param RequestStack $request
      */
-    public function __construct(protected ParameterBagInterface $parameterBag)
+    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $request)
     {
         $this->version = new Version();
 
-        parent::__construct($parameterBag);
+        parent::__construct($parameterBag, $request);
     }
 
     /**
@@ -56,6 +60,8 @@ final class VersionProvider extends BaseRawProvider
      * @throws FunctionJsonEncodeException
      * @throws TypeInvalidException
      * @throws JsonException
+     * @throws FileNotReadableException
+     * @throws CaseInvalidException
      */
     protected function doProvide(): BasePublicResource
     {

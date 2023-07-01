@@ -30,6 +30,8 @@ abstract class BaseRoute
 
     final public const KEY_TYPE = 'type';
 
+    final public const TYPE_BOOLEAN = 'boolean';
+
     final public const TYPE_STRING = 'string';
 
     final public const TYPE_ENUM_STRING = 'string';

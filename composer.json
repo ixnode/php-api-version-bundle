@@ -25,7 +25,7 @@
         "ixnode/php-array-to-object": "^0.1.1",
         "ixnode/php-checker": "^0.1.9",
         "ixnode/php-container": "^0.1.8",
-        "ixnode/php-exception": "^0.1.19",
+        "ixnode/php-exception": "^0.1.20",
         "ixnode/php-json-schema-validator": "^0.1.2",
         "ixnode/php-naming-conventions": "^0.1.1",
         "nelmio/cors-bundle": "^2.2",
