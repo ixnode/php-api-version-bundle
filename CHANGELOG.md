@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.12] - 2023-07-01
+
+* Switch to protected methods
+
 ### [0.1.11] - 2023-07-01
 
 * Add ApiPlatform State Helper
