@@ -62,19 +62,48 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
     protected CommandTester $commandTester;
 
+
     protected ParameterBagInterface $parameterBag;
+
+    /** @var class-string<ParameterBagInterface> $parameterBagClass */
+    protected string $parameterBagClass = ParameterBagInterface::class;
+
 
     protected Entity $entity;
 
+    /** @var class-string<Entity> $entityClass */
+    protected string $entityClass = Entity::class;
+
+
     protected Repository $repository;
+
+    /** @var class-string<Repository> $repositoryClass */
+    protected string $repositoryClass = Repository::class;
+
 
     protected Environment $twig;
 
+    /** @var class-string<Environment> $twigClass */
+    protected string $twigClass = Environment::class;
+
+
     protected RequestStack $request;
+
+    /** @var class-string<RequestStack> $requestClass */
+    protected string $requestClass = RequestStack::class;
+
 
     protected TranslatorInterface $translator;
 
+    /** @var class-string<TranslatorInterface> $translatorClass */
+    protected string $translatorClass = TranslatorInterface::class;
+
+
     protected CommandHelper $commandHelper;
+
+    /** @var class-string<CommandHelper> $commandHelperClass */
+    protected string $commandHelperClass = CommandHelper::class;
+
 
     protected bool $useKernel = false;
 
@@ -232,32 +261,28 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
         }
 
         if ($this->useParameterBag) {
-            $this->createService(ParameterBagInterface::class);
+            $this->createService($this->getServiceParameterBagClass());
         }
 
         if ($this->useDb) {
-            $this->createService(Entity::class);
-            $this->createService(Repository::class);
+            $this->createService($this->getServiceEntityClass());
+            $this->createService($this->getServiceRepositoryClass());
         }
 
         if ($this->useTwig) {
-            $this->createService(Environment::class);
-        }
-
-        if ($this->useRepository) {
-            $this->createService(Repository::class);
+            $this->createService($this->getServiceEnvironmentClass());
         }
 
         if ($this->useRequestStack) {
-            $this->createService(RequestStack::class);
+            $this->createService($this->getServiceRequestStackClass());
         }
 
         if ($this->useTranslator) {
-            $this->createService(TranslatorInterface::class);
+            $this->createService($this->getServiceTranslatorClass());
         }
 
         if ($this->loadFixtures) {
-            $this->createService(CommandHelper::class);
+            $this->createService($this->getServiceCommandHelperClass());
             $this->loadFixtures();
         }
 
@@ -296,6 +321,138 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
                 Repository::class,
             ]),
         };
+    }
+
+    /**
+     * @return class-string<ParameterBagInterface>
+     */
+    public function getServiceParameterBagClass(): string
+    {
+        return $this->parameterBagClass;
+    }
+
+    /**
+     * @param class-string<ParameterBagInterface> $parameterBagClass
+     * @return self
+     */
+    public function setServiceParameterBagClass(string $parameterBagClass): self
+    {
+        $this->parameterBagClass = $parameterBagClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<Entity>
+     */
+    public function getServiceEntityClass(): string
+    {
+        return $this->entityClass;
+    }
+
+    /**
+     * @param class-string<Entity> $entityClass
+     * @return self
+     */
+    public function setServiceEntityClass(string $entityClass): self
+    {
+        $this->entityClass = $entityClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<Repository>
+     */
+    public function getServiceRepositoryClass(): string
+    {
+        return $this->repositoryClass;
+    }
+
+    /**
+     * @param class-string<Repository> $repositoryClass
+     * @return self
+     */
+    public function setServiceRepositoryClass(string $repositoryClass): self
+    {
+        $this->repositoryClass = $repositoryClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<Environment>
+     */
+    public function getServiceEnvironmentClass(): string
+    {
+        return $this->twigClass;
+    }
+
+    /**
+     * @param class-string<Environment> $twigClass
+     * @return self
+     */
+    public function setServiceEnvironmentClass(string $twigClass): self
+    {
+        $this->twigClass = $twigClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<RequestStack>
+     */
+    public function getServiceRequestStackClass(): string
+    {
+        return $this->requestClass;
+    }
+
+    /**
+     * @param class-string<RequestStack> $requestClass
+     * @return self
+     */
+    public function setServiceRequestClass(string $requestClass): self
+    {
+        $this->requestClass = $requestClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<TranslatorInterface>
+     */
+    public function getServiceTranslatorClass(): string
+    {
+        return $this->translatorClass;
+    }
+
+    /**
+     * @param class-string<TranslatorInterface> $translatorClass
+     * @return self
+     */
+    public function setServiceTranslatorClass(string $translatorClass): self
+    {
+        $this->translatorClass = $translatorClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<CommandHelper>
+     */
+    public function getServiceCommandHelperClass(): string
+    {
+        return $this->commandHelperClass;
+    }
+
+    /**
+     * @param class-string<CommandHelper> $commandHelperClass
+     * @return self
+     */
+    public function setServiceCommandHelperClass(string $commandHelperClass): self
+    {
+        $this->commandHelperClass = $commandHelperClass;
+        return $this;
     }
 
     /**
