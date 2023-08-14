@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.16] - 2023-08-14
+
+* Refactoring
+
 ### [0.1.15] - 2023-08-14
 
 * Add setConfigUseRepository method
