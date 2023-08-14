@@ -240,15 +240,6 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
             $this->createService(Repository::class);
         }
 
-        if ($this->loadFixtures) {
-            $this->createService(CommandHelper::class);
-            $this->loadFixtures();
-        }
-
-        if ($this->useCommand) {
-            $this->createCommand($this->commandName, $this->commandClass, $this->commandClassParameterClosure);
-        }
-
         if ($this->useTwig) {
             $this->createService(Environment::class);
         }
@@ -263,6 +254,15 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
         if ($this->useTranslator) {
             $this->createService(TranslatorInterface::class);
+        }
+
+        if ($this->loadFixtures) {
+            $this->createService(CommandHelper::class);
+            $this->loadFixtures();
+        }
+
+        if ($this->useCommand) {
+            $this->createCommand($this->commandName, $this->commandClass, $this->commandClassParameterClosure);
         }
     }
 
