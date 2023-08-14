@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.13] - 2023-08-14
+
+* Add RequestStack and TranslatorInterface to base functional command test
+
 ### [0.1.12] - 2023-07-01
 
 * Switch to protected methods
