@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.18] - 2023-08-14
+
+* Add environment and db driver name to version
+
 ### [0.1.17] - 2023-08-14
 
 * Make service classes configurable
