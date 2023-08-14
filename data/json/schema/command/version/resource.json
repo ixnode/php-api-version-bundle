@@ -2,12 +2,14 @@
     "$schema": "resource.schema.json",
     "name": "ixnode/php-api-version-bundle",
     "description": "Provides the base API plattform functionality",
-    "version": "0.1.9",
-    "date": "Sunday, June 25, 2023 - 08:47:18",
-    "license": "Copyright (c) 2022 Björn Hempel",
+    "version": "0.1.17",
+    "date": "Monday, August 14, 2023 - 18:53:18",
+    "license": "Copyright (c) 2023 Björn Hempel",
     "authors": [
         "Björn Hempel <bjoern@hempel.li>"
     ],
+    "driver-name": "Sqlite - unknown version",
+    "environment": "Test",
     "php-version": "8.2.7",
     "symfony-version": "6.3.0",
     "composer-version": "2.5.1",

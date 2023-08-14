@@ -16,7 +16,7 @@ namespace Ixnode\PhpApiVersionBundle\Tests\Functional\Command\Version;
 use Ixnode\PhpApiVersionBundle\Command\Version\VersionCommand;
 use Ixnode\PhpApiVersionBundle\Constants\Command\CommandSchema;
 use Ixnode\PhpApiVersionBundle\Tests\Functional\Command\Base\BaseFunctionalCommandTest;
-use Ixnode\BashVersionManager\Version;
+use Ixnode\PhpApiVersionBundle\Utils\Version\Version;
 use Ixnode\PhpContainer\File;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\File\FileNotFoundException;
@@ -42,11 +42,17 @@ class VersionCommandTest extends BaseFunctionalCommandTest
     public function doConfig(): void
     {
         $this
+            ->setConfigUseDb()
             ->setConfigUseParameterBag()
+            ->setConfigUseKernel()
             ->setConfigUseCommand(
                 VersionCommand::COMMAND_NAME,
                 VersionCommand::class,
-                fn () => [new Version($this->getProjectDir())]
+                fn () => [
+                    new Version($this->getProjectDir()),
+                    self::$kernel,
+                    $this->entity->getEntityManager()
+                ]
             );
     }
 

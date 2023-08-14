@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d3d7bd3f8f7d10119ee73dc7772f0c9",
+    "content-hash": "f522029c4f01cdf9dc2ccbea31d94408",
     "packages": [
         {
             "name": "api-platform/core",
@@ -1567,16 +1567,16 @@
         },
         {
             "name": "ixnode/bash-version-manager",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ixnode/bash-version-manager.git",
-                "reference": "36fc3ebb7abfb3612e8525e252c78c0ac138412f"
+                "reference": "f641482b6e828d0748f986d0e15bfc4cd87ead69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ixnode/bash-version-manager/zipball/36fc3ebb7abfb3612e8525e252c78c0ac138412f",
-                "reference": "36fc3ebb7abfb3612e8525e252c78c0ac138412f",
+                "url": "https://api.github.com/repos/ixnode/bash-version-manager/zipball/f641482b6e828d0748f986d0e15bfc4cd87ead69",
+                "reference": "f641482b6e828d0748f986d0e15bfc4cd87ead69",
                 "shasum": ""
             },
             "require": {
@@ -1618,9 +1618,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ixnode/bash-version-manager/issues",
-                "source": "https://github.com/ixnode/bash-version-manager/tree/0.1.7"
+                "source": "https://github.com/ixnode/bash-version-manager/tree/0.1.8"
             },
-            "time": "2023-06-25T09:55:30+00:00"
+            "time": "2023-08-14T20:09:22+00:00"
         },
         {
             "name": "ixnode/php-array-to-object",

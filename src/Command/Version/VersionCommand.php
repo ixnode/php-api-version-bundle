@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Command\Version;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Ixnode\PhpApiVersionBundle\Utils\TypeCasting\TypeCastingHelper;
 use Ixnode\PhpApiVersionBundle\Utils\Version\Version;
@@ -29,6 +30,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class VersionCommand
@@ -78,16 +80,20 @@ class VersionCommand extends Command
 
     protected const KEY_API_PLATFORM = 'api-platform-version';
 
-    protected Version $version;
+    protected const KEY_DRIVER_NAME = 'driver-name';
+
+    protected const KEY_ENVIRONMENT = 'environment';
 
     /**
      * VersionCommand constructor.
      *
      */
-    public function __construct()
+    public function __construct(
+        protected Version $version,
+        protected KernelInterface $kernel,
+        protected EntityManagerInterface $entityManager
+    )
     {
-        $this->version = new Version();
-
         parent::__construct();
     }
 
@@ -124,6 +130,8 @@ class VersionCommand extends Command
             self::KEY_DATE => $this->version->getDate(),
             self::KEY_LICENSE => $this->version->getLicense(),
             self::KEY_AUTHORS => $this->version->getAuthors(),
+            self::KEY_DRIVER_NAME => $this->version->getDriverName($this->entityManager),
+            self::KEY_ENVIRONMENT => $this->version->getEnvironment($this->kernel),
             self::KEY_PHP => $this->version->getVersionPhp(),
             self::KEY_SYMFONY => $this->version->getVersionSymfony(),
             self::KEY_COMPOSER => $this->version->getVersionComposer(),
