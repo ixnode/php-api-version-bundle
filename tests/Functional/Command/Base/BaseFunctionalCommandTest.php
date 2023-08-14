@@ -88,6 +88,8 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
     protected bool $useRequestStack = false;
 
+    protected bool $useRepository = false;
+
     protected bool $useTranslator = false;
 
     protected bool $loadFixtures = false;
@@ -196,6 +198,16 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     /**
      * @return self
      */
+    protected function setConfigUseRepository(): self
+    {
+        $this->useRepository = true;
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
     protected function setConfigUseTranslator(): self
     {
         $this->useTranslator = true;
@@ -209,6 +221,7 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
      * @return void
      * @throws Exception
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function setUp(): void
     {
@@ -238,6 +251,10 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
         if ($this->useTwig) {
             $this->createService(Environment::class);
+        }
+
+        if ($this->useRepository) {
+            $this->createService(Repository::class);
         }
 
         if ($this->useRequestStack) {
