@@ -38,6 +38,8 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**
@@ -68,6 +70,10 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
     protected Environment $twig;
 
+    protected RequestStack $request;
+
+    protected TranslatorInterface $translator;
+
     protected CommandHelper $commandHelper;
 
     protected bool $useKernel = false;
@@ -79,6 +85,10 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     protected bool $useParameterBag = false;
 
     protected bool $useTwig = false;
+
+    protected bool $useRequestStack = false;
+
+    protected bool $useTranslator = false;
 
     protected bool $loadFixtures = false;
 
@@ -178,6 +188,7 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
      *
      * @return void
      * @throws Exception
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function setUp(): void
     {
@@ -208,6 +219,14 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
         if ($this->useTwig) {
             $this->createService(Environment::class);
         }
+
+        if ($this->useRequestStack) {
+            $this->createService(RequestStack::class);
+        }
+
+        if ($this->useTranslator) {
+            $this->createService(TranslatorInterface::class);
+        }
     }
 
     /**
@@ -230,6 +249,8 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
             $service instanceof Environment => $this->twig = $service,
             $service instanceof ParameterBagInterface => $this->parameterBag = $service,
             $service instanceof Repository => $this->repository = $service,
+            $service instanceof RequestStack => $this->request = $service,
+            $service instanceof TranslatorInterface => $this->translator = $service,
             default => throw new ClassInvalidException($service::class, [
                 CommandHelper::class,
                 Entity::class,

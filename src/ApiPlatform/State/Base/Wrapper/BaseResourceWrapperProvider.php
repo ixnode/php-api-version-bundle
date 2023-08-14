@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the twelvepics-com/php-location-api project.
+ * This file is part of the ixnode/php-api-version-bundle project.
  *
  * (c) Björn Hempel <https://www.hempel.li/>
  *
@@ -288,7 +288,6 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * @throws ArrayKeyNotFoundException
      * @throws CaseInvalidException
      * @throws CaseUnsupportedException
-     * @throws ClassInvalidException
      * @throws TypeInvalidException
      */
     protected function getResourceWrapper(BasePublicResource|array $baseResource, string $timeTaken): ResourceWrapper
