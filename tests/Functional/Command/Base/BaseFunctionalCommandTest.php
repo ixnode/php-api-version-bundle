@@ -184,6 +184,26 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     }
 
     /**
+     * @return self
+     */
+    protected function setConfigUseRequestStack(): self
+    {
+        $this->useRequestStack = true;
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    protected function setConfigUseTranslator(): self
+    {
+        $this->useTranslator = true;
+
+        return $this;
+    }
+
+    /**
      * Sets up the test case.
      *
      * @return void
