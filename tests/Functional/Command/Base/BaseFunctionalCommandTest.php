@@ -26,6 +26,7 @@ use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
 use Ixnode\PhpException\Class\ClassInvalidException;
 use Ixnode\PhpException\Configuration\ConfigurationMissingException;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpJsonSchemaValidator\Validator;
@@ -595,14 +596,14 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
      *
      * @param Validator $validator
      * @return bool
-     * @throws TypeInvalidException
+     * @throws FileNotFoundException
      * @throws FunctionJsonEncodeException
      * @throws JsonException
-     * @throws FileNotFoundException
-     * @throws JsonException
+     * @throws TypeInvalidException
+     * @throws FileNotReadableException
      */
     protected function validateAndWriteOutput(Validator $validator): bool
     {
-        return (new ValidatorDebugger($validator))->validate();
+        return (new ValidatorDebugger($validator, __FILE__, __LINE__))->validate();
     }
 }

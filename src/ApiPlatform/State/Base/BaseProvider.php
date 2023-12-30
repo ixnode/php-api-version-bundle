@@ -40,6 +40,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @version 0.1.0 (2023-01-01)
  * @since 0.1.0 (2023-01-01) First version.
  * @implements ProviderInterface<BasePublicResource>
+ * @implements ProcessorInterface<ProcessorInterface>
  */
 abstract class BaseProvider implements ProviderInterface, ProcessorInterface
 {

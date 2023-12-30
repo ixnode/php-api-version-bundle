@@ -29,11 +29,11 @@ use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\ArrayType\ArrayKeyNotFoundException;
 use Ixnode\PhpException\Case\CaseInvalidException;
 use Ixnode\PhpException\Case\CaseUnsupportedException;
-use Ixnode\PhpException\Class\ClassInvalidException;
 use Ixnode\PhpException\File\FileNotFoundException;
 use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
+use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
 use JsonException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,7 +130,6 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * @throws ArrayKeyNotFoundException
      * @throws CaseInvalidException
      * @throws CaseUnsupportedException
-     * @throws ClassInvalidException
      * @throws TypeInvalidException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -234,11 +233,12 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      *
      * @return Json|null
      * @throws CaseUnsupportedException
-     * @throws JsonException
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
+     * @throws JsonException
      * @throws TypeInvalidException
+     * @throws FunctionReplaceException
      */
     protected function getRequestBodyAsJson(): ?Json
     {

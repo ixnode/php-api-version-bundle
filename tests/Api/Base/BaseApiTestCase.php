@@ -18,6 +18,7 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use Exception;
 use Ixnode\PhpException\Class\ClassInvalidException;
 use Ixnode\PhpException\File\FileNotFoundException;
+use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpJsonSchemaValidator\Validator;
@@ -84,7 +85,6 @@ abstract class BaseApiTestCase extends ApiTestCase
      *
      * @return void
      * @throws ClassInvalidException
-     * @throws TypeInvalidException
      */
     protected function setUp(): void
     {
@@ -187,13 +187,14 @@ abstract class BaseApiTestCase extends ApiTestCase
      *
      * @param Validator $validator
      * @return bool
-     * @throws TypeInvalidException
+     * @throws FileNotFoundException
      * @throws FunctionJsonEncodeException
      * @throws JsonException
-     * @throws FileNotFoundException
+     * @throws TypeInvalidException
+     * @throws FileNotReadableException
      */
     protected function validateAndWriteOutput(Validator $validator): bool
     {
-        return (new ValidatorDebugger($validator))->validate();
+        return (new ValidatorDebugger($validator, __FILE__, __LINE__))->validate();
     }
 }
