@@ -558,12 +558,11 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      *
      * @param string $name
      * @return bool
-     * @throws ArrayKeyNotFoundException
      * @throws TypeInvalidException
      */
     protected function isFilterBoolean(string $name): bool
     {
-        return (bool) $this->getFilter($name);
+        return $this->hasFilter($name);
     }
 
     /**
