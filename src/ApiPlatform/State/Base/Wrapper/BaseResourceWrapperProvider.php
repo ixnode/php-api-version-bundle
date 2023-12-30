@@ -374,6 +374,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
                         $property[BaseRoute::KEY_TYPE] === BaseRoute::TYPE_STRING,
                         $property[BaseRoute::KEY_TYPE] === BaseRoute::TYPE_ENUM_STRING => $this->getFilterString($name),
                         $property[BaseRoute::KEY_TYPE] === BaseRoute::TYPE_INTEGER => $this->getFilterInteger($name),
+                        $property[BaseRoute::KEY_TYPE] === BaseRoute::TYPE_BOOLEAN => $this->isFilterBoolean($name),
                         default => throw new TypeInvalidException(sprintf('BaseRoute::KEY_TYPE (%s)', $name)),
                     };
                     break;
@@ -550,6 +551,19 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
     protected function getFilterInteger(string $name): int
     {
         return (new TypeCastingHelper($this->getFilter($name)))->intval();
+    }
+
+    /**
+     * Returns a filter variable as bool representation.
+     *
+     * @param string $name
+     * @return bool
+     * @throws ArrayKeyNotFoundException
+     * @throws TypeInvalidException
+     */
+    protected function isFilterBoolean(string $name): bool
+    {
+        return (bool) $this->getFilter($name);
     }
 
     /**
