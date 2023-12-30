@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.20] - 2023-12-30
+
+* Update Symfony from v6.3.0 to v6.3.11
+* Update php-json-schema-validator from 0.1.2 to 0.1.4 and make some adoption to this version
+
 ### [0.1.19] - 2023-12-30
 
 * Add SerializerInterface to BaseFunctionalCommandTest.php
