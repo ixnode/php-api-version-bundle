@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.21] - 2023-12-30
+
+* Add isFilterBoolean method
+
 ### [0.1.20] - 2023-12-30
 
 * Update Symfony from v6.3.0 to v6.3.11
