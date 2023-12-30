@@ -39,6 +39,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -49,6 +50,7 @@ use Twig\Environment;
  * @version 0.1.0 (2023-01-01)
  * @since 0.1.0 (2023-01-01) First version.
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class BaseFunctionalCommandTest extends WebTestCase
 {
@@ -67,6 +69,12 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
 
     /** @var class-string<ParameterBagInterface> $parameterBagClass */
     protected string $parameterBagClass = ParameterBagInterface::class;
+
+
+    protected SerializerInterface $serializer;
+
+    /** @var class-string<SerializerInterface> $serializerClass */
+    protected string $serializerClass = SerializerInterface::class;
 
 
     protected Entity $entity;
@@ -112,6 +120,8 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     protected bool $useDb = false;
 
     protected bool $useParameterBag = false;
+
+    protected bool $useSerializer = false;
 
     protected bool $useTwig = false;
 
@@ -179,6 +189,17 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     {
         $this->setConfigUseKernel();
         $this->useParameterBag = true;
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    protected function setConfigUseSerializer(): self
+    {
+        $this->setConfigUseKernel();
+        $this->useSerializer = true;
 
         return $this;
     }
@@ -264,6 +285,10 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
             $this->createService($this->getServiceParameterBagClass());
         }
 
+        if ($this->useSerializer) {
+            $this->createService($this->getServiceSerializerClass());
+        }
+
         if ($this->useDb) {
             $this->createService($this->getServiceEntityClass());
             $this->createService($this->getServiceRepositoryClass());
@@ -310,6 +335,7 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
             $service instanceof Entity => $this->entity = $service,
             $service instanceof Environment => $this->twig = $service,
             $service instanceof ParameterBagInterface => $this->parameterBag = $service,
+            $service instanceof SerializerInterface => $this->serializer = $service,
             $service instanceof Repository => $this->repository = $service,
             $service instanceof RequestStack => $this->request = $service,
             $service instanceof TranslatorInterface => $this->translator = $service,
@@ -338,6 +364,25 @@ abstract class BaseFunctionalCommandTest extends WebTestCase
     public function setServiceParameterBagClass(string $parameterBagClass): self
     {
         $this->parameterBagClass = $parameterBagClass;
+
+        return $this;
+    }
+
+    /**
+     * @return class-string<SerializerInterface>
+     */
+    public function getServiceSerializerClass(): string
+    {
+        return $this->serializerClass;
+    }
+
+    /**
+     * @param class-string<SerializerInterface> $serializerClass
+     * @return self
+     */
+    public function setServiceSerializerClass(string $serializerClass): self
+    {
+        $this->serializerClass = $serializerClass;
 
         return $this;
     }
