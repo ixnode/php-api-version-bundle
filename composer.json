@@ -32,26 +32,26 @@
         "opis/json-schema": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.15",
-        "symfony/asset": "7.0.*",
-        "symfony/console": "7.0.*",
-        "symfony/dotenv": "7.0.*",
-        "symfony/expression-language": "7.0.*",
+        "symfony/asset": "7.1.*",
+        "symfony/console": "7.1.*",
+        "symfony/dotenv": "7.1.*",
+        "symfony/expression-language": "7.1.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.0.*",
-        "symfony/property-access": "7.0.*",
-        "symfony/property-info": "7.0.*",
-        "symfony/runtime": "7.0.*",
-        "symfony/security-bundle": "7.0.*",
-        "symfony/serializer": "7.0.*",
-        "symfony/twig-bundle": "7.0.*",
-        "symfony/validator": "7.0.*",
-        "symfony/yaml": "7.0.*",
+        "symfony/framework-bundle": "7.1.*",
+        "symfony/property-access": "7.1.*",
+        "symfony/property-info": "7.1.*",
+        "symfony/runtime": "7.1.*",
+        "symfony/security-bundle": "7.1.*",
+        "symfony/serializer": "7.1.*",
+        "symfony/twig-bundle": "7.1.*",
+        "symfony/validator": "7.1.*",
+        "symfony/yaml": "7.1.*",
         "monolog/monolog": "^3.4",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/messenger": "7.0.*",
+        "symfony/messenger": "7.1.*",
         "symfony/doctrine-messenger": "7.1.*",
-        "symfony/http-foundation": "7.0.*",
-        "symfony/dependency-injection": "7.0.*"
+        "symfony/http-foundation": "7.1.*",
+        "symfony/dependency-injection": "7.1.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -63,13 +63,13 @@
         "phpunit/phpunit": "^9",
         "povils/phpmnd": "^3.0",
         "rector/rector": "^0.15.2",
-        "symfony/browser-kit": "7.0.*",
-        "symfony/css-selector": "7.0.*",
-        "symfony/http-client": "7.0.*",
+        "symfony/browser-kit": "7.1.*",
+        "symfony/css-selector": "7.1.*",
+        "symfony/http-client": "7.1.*",
         "symfony/maker-bundle": "^1.48",
-        "symfony/phpunit-bridge": "^6.4",
-        "symfony/stopwatch": "7.0.*",
-        "symfony/web-profiler-bundle": "7.0.*"
+        "symfony/phpunit-bridge": "^7.1",
+        "symfony/stopwatch": "7.1.*",
+        "symfony/web-profiler-bundle": "7.1.*"
     },
     "autoload": {
         "psr-4": {
@@ -368,7 +368,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "7.1.*"
         }
     }
 }
