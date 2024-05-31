@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.24] - 2024-05-31
+
+* Update symfony to 7.1
+
 ### [0.1.23] - 2024-05-31
 
 * Update symfony to 7.0
