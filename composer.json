@@ -17,10 +17,10 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^3.0",
-        "doctrine/annotations": "^1.0",
-        "doctrine/doctrine-bundle": "^2.7",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.14",
+        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-bundle": "^2.12",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^3.2",
         "ixnode/bash-version-manager": "^0.1.8",
         "ixnode/php-array-to-object": "^0.1.1",
         "ixnode/php-checker": "^0.1.9",
@@ -32,24 +32,26 @@
         "opis/json-schema": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.15",
-        "symfony/asset": "6.3.*",
-        "symfony/console": "6.3.*",
-        "symfony/dotenv": "6.3.*",
-        "symfony/expression-language": "6.3.*",
+        "symfony/asset": "7.0.*",
+        "symfony/console": "7.0.*",
+        "symfony/dotenv": "7.0.*",
+        "symfony/expression-language": "7.0.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "6.3.*",
-        "symfony/property-access": "6.3.*",
-        "symfony/property-info": "6.3.*",
-        "symfony/runtime": "6.3.*",
-        "symfony/security-bundle": "6.3.*",
-        "symfony/serializer": "6.3.*",
-        "symfony/twig-bundle": "6.3.*",
-        "symfony/validator": "6.3.*",
-        "symfony/yaml": "6.3.*",
+        "symfony/framework-bundle": "7.0.*",
+        "symfony/property-access": "7.0.*",
+        "symfony/property-info": "7.0.*",
+        "symfony/runtime": "7.0.*",
+        "symfony/security-bundle": "7.0.*",
+        "symfony/serializer": "7.0.*",
+        "symfony/twig-bundle": "7.0.*",
+        "symfony/validator": "7.0.*",
+        "symfony/yaml": "7.0.*",
         "monolog/monolog": "^3.4",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/messenger": "6.3.*",
-        "symfony/doctrine-messenger": "6.3.*"
+        "symfony/messenger": "7.0.*",
+        "symfony/doctrine-messenger": "7.1.*",
+        "symfony/http-foundation": "7.0.*",
+        "symfony/dependency-injection": "7.0.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -61,13 +63,13 @@
         "phpunit/phpunit": "^9",
         "povils/phpmnd": "^3.0",
         "rector/rector": "^0.15.2",
-        "symfony/browser-kit": "6.3.*",
-        "symfony/css-selector": "6.3.*",
-        "symfony/http-client": "6.3.*",
+        "symfony/browser-kit": "7.0.*",
+        "symfony/css-selector": "7.0.*",
+        "symfony/http-client": "7.0.*",
         "symfony/maker-bundle": "^1.48",
-        "symfony/phpunit-bridge": "^6.3",
-        "symfony/stopwatch": "6.3.*",
-        "symfony/web-profiler-bundle": "6.3.*"
+        "symfony/phpunit-bridge": "^6.4",
+        "symfony/stopwatch": "7.0.*",
+        "symfony/web-profiler-bundle": "7.0.*"
     },
     "autoload": {
         "psr-4": {
@@ -366,7 +368,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.3.*"
+            "require": "7.0.*"
         }
     }
 }

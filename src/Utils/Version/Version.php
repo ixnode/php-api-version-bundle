@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\Utils\Version;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Ixnode\BashVersionManager\Version as BashVersionManager;
 use Ixnode\PhpApiVersionBundle\Constants\Code\Environments;
@@ -43,12 +44,13 @@ class Version extends BashVersionManager
      * Returns the db driver name and version.
      *
      * @throws CaseUnsupportedException
+     * @throws Exception
      */
     public function getDriverName(EntityManagerInterface $entityManager): string
     {
         $connection = $entityManager->getConnection();
 
-        $driver = $connection->getDriver()->getDatabasePlatform();
+        $driver = $connection->getDatabasePlatform();
 
         $platformClassName = $driver::class;
 
@@ -62,6 +64,7 @@ class Version extends BashVersionManager
             str_contains($platformClassName, 'PostgreSQL94Platform') => 'PostgreSQL 9.4', /* @link PostgreSQL94Platform */
             str_contains($platformClassName, 'PostgreSQLPlatform') => 'PostgreSQL - unknown version', /* @link PostgreSQLPlatform */
             str_contains($platformClassName, 'SqlitePlatform') => 'Sqlite - unknown version', /* @link SqlitePlatform */
+            str_contains($platformClassName, 'SQLitePlatform') => 'Sqlite - unknown version', /* @link SqlitePlatform */
             default => throw new CaseUnsupportedException(sprintf('Unsupported database platform "%s".', $platformClassName)),
         };
     }
