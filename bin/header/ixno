@@ -11,9 +11,9 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VERSION_PATH="$SCRIPT_DIR/../../VERSION"
 VERSION=$(cat $VERSION_PATH)
 
-HEADER1="PHPNamingConventions (PNC)"
+HEADER1="PhpApiVersionBundle (PAVB)"
 HEADER2="Version: $VERSION"
-HEADER3="Copyright (c) 2022 björn hempel <bjoern@hempel.li>"
+HEADER3="Copyright (c) 2024 Björn Hempel <bjoern@hempel.li>"
 
 echo
 printf " ┌───┐ ┌───┐ ┌───┐ ┌───┐  "

@@ -24,6 +24,7 @@ use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpJsonSchemaValidator\Validator;
 use Ixnode\PhpJsonSchemaValidator\ValidatorDebugger;
 use JsonException;
+use LogicException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,6 +76,10 @@ abstract class BaseApiTestCase extends ApiTestCase
 
         /* Setup is already done. */
         self::$setUpDone = true;
+
+        if (is_null(self::$kernel)) {
+            throw new LogicException('Kernel is null.');
+        }
 
         /* Save container class. */
         self::$container = self::$kernel->getContainer();
