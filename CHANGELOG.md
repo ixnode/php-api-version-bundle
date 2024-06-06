@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.25] - 2024-06-06
+
+* Disable 404 status on version endpoint
+* Add new description to version endpoint
+
 ### [0.1.24] - 2024-05-31
 
 * Update symfony to 7.1
