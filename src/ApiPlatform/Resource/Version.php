@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the ixnode/php-api-version-bundle project.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Ixnode\PhpApiVersionBundle\ApiPlatform\Resource;
 
@@ -27,7 +27,20 @@ use Ixnode\PhpApiVersionBundle\ApiPlatform\State\VersionProvider;
  */
 #[Get(
     openapiContext: [
-        'description' => VersionRoute::DESCRIPTION
+        'summary' => VersionRoute::SUMMARY_GET,
+        'description' => VersionRoute::DESCRIPTION_GET,
+        'responses' => [
+            '200' => [
+                'description' => 'Version resource',
+                'content' => [
+                    'application/json' => [
+                        'schema' => [
+                            '$ref' => "#/components/schemas/Version"
+                        ]
+                    ]
+                ]
+            ]
+        ]
     ],
     provider: VersionProvider::class
 )]

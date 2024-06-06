@@ -26,5 +26,7 @@ final class VersionRoute extends BaseRoute
 {
     final public const PROPERTIES = [];
 
-    public const DESCRIPTION = "# Version resource\nRetrieves a Version resource.";
+    public const SUMMARY_GET = 'Retrieves a Version resource';
+
+    public const DESCRIPTION_GET = 'This endpoint is used to obtain the versions of this application.';
 }
