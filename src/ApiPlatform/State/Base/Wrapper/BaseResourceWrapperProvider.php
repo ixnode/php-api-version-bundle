@@ -92,6 +92,23 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
     }
 
     /**
+     * Prepare all variables, context, etc.
+     *
+     * @param Operation $operation
+     * @param array<string, mixed> $uriVariables
+     * @param array<int|string, mixed> $context
+     * @throws Exception
+     */
+    protected function prepare(Operation $operation, array $uriVariables = [], array $context = []): void
+    {
+        $this->setOperation($operation);
+        $this->setUriVariables($uriVariables);
+        $this->setContext($context);
+
+        $this->setRequestMethodFromContext($operation);
+    }
+
+    /**
      * @inheritdoc
      * @param Operation $operation
      * @param array<string, mixed> $uriVariables
@@ -105,11 +122,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
 
         $stopwatch->start('provide');
 
-        $this->setOperation($operation);
-        $this->setUriVariables($uriVariables);
-        $this->setContext($context);
-
-        $this->setRequestMethodFromContext($operation);
+        $this->prepare($operation, $uriVariables, $context);
 
         $baseResource = $this->doProvide();
 
@@ -131,6 +144,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * @throws CaseInvalidException
      * @throws CaseUnsupportedException
      * @throws TypeInvalidException
+     * @throws Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ResourceWrapper
@@ -139,11 +153,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
 
         $stopwatch->start('process');
 
-        $this->setOperation($operation);
-        $this->setUriVariables($uriVariables);
-        $this->setContext($context);
-
-        $this->setRequestMethodFromContext($operation);
+        $this->prepare($operation, $uriVariables, $context);
 
         $baseResource = $this->doProcess();
 
