@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.26] - 2024-06-08
+
+* Add BaseResourceWrapperProvider::prepare method to be able to set context, etc. from extended classes
+
 ### [0.1.25] - 2024-06-06
 
 * Disable 404 status on version endpoint
