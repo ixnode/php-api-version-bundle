@@ -85,7 +85,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      */
     public function __construct(
         protected Version $version,
-        protected ParameterBagInterface $parameterBag,
+        ParameterBagInterface $parameterBag,
         RequestStack $requestStack
     )
     {
@@ -227,7 +227,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      */
     protected function getRequestBody(): ?string
     {
-        $request = $this->getRequest();
+        $request = $this->getCurrentRequest();
 
         $requestBody = $request->getContent();
 
@@ -645,7 +645,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      */
     protected function getEndpoint(): string
     {
-        $pathInfo = explode('/', $this->getRequest()->getPathInfo());
+        $pathInfo = explode('/', $this->getCurrentRequest()->getPathInfo());
 
         return implode('/', array_slice($pathInfo, 3));
     }
@@ -658,7 +658,7 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      */
     protected function endpointContains(string $word): bool
     {
-        $pathInfo = explode('/', $this->getRequest()->getPathInfo());
+        $pathInfo = explode('/', $this->getCurrentRequest()->getPathInfo());
 
         return in_array($word, $pathInfo);
     }

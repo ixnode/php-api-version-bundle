@@ -58,7 +58,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
 
     protected const TEXT_UNDEFINED_METHOD = 'Please overwrite the "%s" method in your provider to use this function.';
 
-    protected Request $request;
+    protected Request $currentRequest;
 
     /**
      * @param ParameterBagInterface $parameterBag
@@ -69,13 +69,13 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
     {
         $this->input = new ArrayInput([]);
 
-        $request = $requestStack->getCurrentRequest();
+        $currentRequest = $requestStack->getCurrentRequest();
 
-        if (is_null($request)) {
+        if (is_null($currentRequest)) {
             throw new CaseUnsupportedException('Can\'t get the CurrentRequest class(<code>$this->getRequest()->getCurrentRequest();</code>).');
         }
 
-        $this->request = $request;
+        $this->currentRequest = $currentRequest;
     }
 
     /**
@@ -182,9 +182,19 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @return Request
      */
+    protected function getCurrentRequest(): Request
+    {
+        return $this->currentRequest;
+    }
+
+    /**
+     * Returns the current request.
+     *
+     * @return Request
+     */
     protected function getRequest(): Request
     {
-        return $this->request;
+        return $this->currentRequest;
     }
 
     /**
@@ -194,7 +204,7 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      */
     protected function getHeaderBag(): HeaderBag
     {
-        $request = $this->getRequest();
+        $request = $this->getCurrentRequest();
 
         return $request->headers;
     }
