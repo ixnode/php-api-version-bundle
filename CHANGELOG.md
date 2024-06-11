@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.28] - 2024-06-11
+
+* Add getCurrentRequest to BaseProvider to support backward compatibility
+
 ### [0.1.27] - 2024-06-11
 
 * Calculate Request parameter within the __construct of BaseProvider
