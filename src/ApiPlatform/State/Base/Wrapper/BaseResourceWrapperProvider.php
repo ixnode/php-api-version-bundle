@@ -80,15 +80,16 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
     /**
      * @param Version $version
      * @param ParameterBagInterface $parameterBag
-     * @param RequestStack $request
+     * @param RequestStack $requestStack
+     * @throws CaseUnsupportedException
      */
     public function __construct(
         protected Version $version,
         protected ParameterBagInterface $parameterBag,
-        protected RequestStack $request
+        RequestStack $requestStack
     )
     {
-        parent::__construct($parameterBag, $request);
+        parent::__construct($parameterBag, $requestStack);
     }
 
     /**
@@ -223,13 +224,12 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * Returns the request body as string.
      *
      * @return string|null
-     * @throws CaseUnsupportedException
      */
     protected function getRequestBody(): ?string
     {
-        $currentRequest = $this->getCurrentRequest();
+        $request = $this->getRequest();
 
-        $requestBody = $currentRequest->getContent();
+        $requestBody = $request->getContent();
 
         if (empty($requestBody)) {
             return null;
@@ -242,7 +242,6 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * Returns the request body as JSON object.
      *
      * @return Json|null
-     * @throws CaseUnsupportedException
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
@@ -643,11 +642,10 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      * Returns the endpoint.
      *
      * @return string
-     * @throws CaseUnsupportedException
      */
     protected function getEndpoint(): string
     {
-        $pathInfo = explode('/', $this->getCurrentRequest()->getPathInfo());
+        $pathInfo = explode('/', $this->getRequest()->getPathInfo());
 
         return implode('/', array_slice($pathInfo, 3));
     }
@@ -657,11 +655,10 @@ abstract class BaseResourceWrapperProvider extends BaseProvider
      *
      * @param string $word
      * @return bool
-     * @throws CaseUnsupportedException
      */
     protected function endpointContains(string $word): bool
     {
-        $pathInfo = explode('/', $this->getCurrentRequest()->getPathInfo());
+        $pathInfo = explode('/', $this->getRequest()->getPathInfo());
 
         return in_array($word, $pathInfo);
     }

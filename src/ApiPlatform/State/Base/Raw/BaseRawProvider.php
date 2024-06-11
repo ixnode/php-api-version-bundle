@@ -41,9 +41,9 @@ abstract class BaseRawProvider extends BaseProvider
     /**
      * BaseDirectProvider constructor.
      */
-    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $request)
+    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $requestStack)
     {
-        parent::__construct($this->parameterBag, $this->request);
+        parent::__construct($this->parameterBag, $this->requestStack);
     }
 
     /**

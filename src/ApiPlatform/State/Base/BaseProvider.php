@@ -58,13 +58,24 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
 
     protected const TEXT_UNDEFINED_METHOD = 'Please overwrite the "%s" method in your provider to use this function.';
 
+    protected Request $request;
+
     /**
      * @param ParameterBagInterface $parameterBag
-     * @param RequestStack $request
+     * @param RequestStack $requestStack
+     * @throws CaseUnsupportedException
      */
-    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $request)
+    public function __construct(protected ParameterBagInterface $parameterBag, RequestStack $requestStack)
     {
         $this->input = new ArrayInput([]);
+
+        $request = $requestStack->getCurrentRequest();
+
+        if (is_null($request)) {
+            throw new CaseUnsupportedException('Can\'t get the CurrentRequest class(<code>$this->getRequest()->getCurrentRequest();</code>).');
+        }
+
+        $this->request = $request;
     }
 
     /**
@@ -170,30 +181,22 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * Returns the current request.
      *
      * @return Request
-     * @throws CaseUnsupportedException
      */
-    protected function getCurrentRequest(): Request
+    protected function getRequest(): Request
     {
-        $currentRequest = $this->request->getCurrentRequest();
-
-        if (is_null($currentRequest)) {
-            throw new CaseUnsupportedException('Can\'t get the CurrentRequest class(<code>$this->getRequest()->getCurrentRequest();</code>).');
-        }
-
-        return $currentRequest;
+        return $this->request;
     }
 
     /**
      * Returns the header bag.
      *
      * @return HeaderBag
-     * @throws CaseUnsupportedException
      */
     protected function getHeaderBag(): HeaderBag
     {
-        $currentRequest = $this->getCurrentRequest();
+        $request = $this->getRequest();
 
-        return $currentRequest->headers;
+        return $request->headers;
     }
 
     /**
@@ -201,7 +204,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @param string $name
      * @return bool
-     * @throws CaseUnsupportedException
      */
     public function hasHeader(string $name): bool
     {
@@ -216,7 +218,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * @param string $name
      * @return string|null
      * @throws ArrayKeyNotFoundException
-     * @throws CaseUnsupportedException
      */
     public function getHeader(string $name): ?string
     {
@@ -232,7 +233,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @param string $name
      * @return string|null
-     * @throws CaseUnsupportedException
      */
     public function getHeaderAsStringOrNull(string $name): ?string
     {
@@ -264,7 +264,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @param string $name
      * @return float|null
-     * @throws CaseUnsupportedException
      */
     public function getHeaderAsFloatOrNull(string $name): ?float
     {
@@ -296,7 +295,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      *
      * @param string $name
      * @return int|null
-     * @throws CaseUnsupportedException
      */
     public function getHeaderAsIntOrNull(string $name): ?int
     {
@@ -329,7 +327,6 @@ abstract class BaseProvider implements ProviderInterface, ProcessorInterface
      * @param string $name
      * @return bool
      * @throws CaseInvalidException
-     * @throws CaseUnsupportedException
      * @throws TypeInvalidException
      */
     public function isHeaderAsBoolean(string $name): bool

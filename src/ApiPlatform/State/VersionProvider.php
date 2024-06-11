@@ -42,13 +42,13 @@ final class VersionProvider extends BaseRawProvider
      * VersionProvider constructor.
      *
      * @param ParameterBagInterface $parameterBag
-     * @param RequestStack $request
+     * @param RequestStack $requestStack
      */
-    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $request)
+    public function __construct(protected ParameterBagInterface $parameterBag, protected RequestStack $requestStack)
     {
         $this->version = new Version();
 
-        parent::__construct($parameterBag, $request);
+        parent::__construct($parameterBag, $requestStack);
     }
 
     /**
