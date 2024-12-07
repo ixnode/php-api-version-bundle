@@ -1,6 +1,7 @@
 {
     "name": "ixnode/php-api-version-bundle",
     "description": "Provides the base API plattform functionality",
+    "version": "0.1.29",
     "license": "MIT",
     "authors": [
         {
