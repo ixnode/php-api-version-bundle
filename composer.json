@@ -21,12 +21,11 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
-        "ixnode/bash-version-manager": "^0.1.8",
         "ixnode/php-array-to-object": "^0.1.1",
         "ixnode/php-checker": "^0.1.9",
-        "ixnode/php-container": "^0.1.8",
-        "ixnode/php-exception": "^0.1.20",
-        "ixnode/php-json-schema-validator": "^0.1.2",
+        "ixnode/php-container": "*",
+        "ixnode/php-exception": "^0.1.22",
+        "ixnode/php-json-schema-validator": "*",
         "ixnode/php-naming-conventions": "^0.1.1",
         "nelmio/cors-bundle": "^2.2",
         "opis/json-schema": "^2.3",
@@ -69,7 +68,8 @@
         "symfony/maker-bundle": "^1.48",
         "symfony/phpunit-bridge": "^7.1",
         "symfony/stopwatch": "7.1.*",
-        "symfony/web-profiler-bundle": "7.1.*"
+        "symfony/web-profiler-bundle": "7.1.*",
+        "ixnode/bash-version-manager": "*"
     },
     "autoload": {
         "psr-4": {
